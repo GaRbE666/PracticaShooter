@@ -113,14 +113,14 @@ public class Item : MonoBehaviour
         EnemyIA[] enemies = FindObjectsOfType<EnemyIA>();
         foreach (EnemyIA enemy in enemies)
         {
-            enemy.GetComponent<EnemyIA>().zScritable.pointReward *= 2;
+            enemy.GetComponent<EnemyIA>().pointsReward *= 2;
         }
 
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
 
         foreach (EnemyIA enemy in enemies)
         {
-            enemy.GetComponent<EnemyIA>().zScritable.pointReward /= 2;
+            enemy.GetComponent<EnemyIA>().pointsReward /= 2;
         }
 
         Destroy(gameObject);

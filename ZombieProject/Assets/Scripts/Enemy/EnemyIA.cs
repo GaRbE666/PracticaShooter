@@ -8,7 +8,8 @@ public class EnemyIA : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyHealth enemyHealth;
     [SerializeField] private LevelManager levelManager;
-    public EnemyScriptable zScritable;
+    public EnemyScriptable zScriptable;
+    public int pointsReward;
     private EnemyAnimations enemyAnimations;
     private Transform player;
     public bool isAttacking;
@@ -21,7 +22,7 @@ public class EnemyIA : MonoBehaviour
 
     private void Start()
     {
-        
+        pointsReward = zScriptable.pointReward;
         ChangeSpeedEnemy();
     }
 
@@ -45,18 +46,18 @@ public class EnemyIA : MonoBehaviour
     {
         if (levelManager.easyLevel)
         {
-            agent.speed = zScritable.walkSpeed;
+            agent.speed = zScriptable.walkSpeed;
         }
 
         if (levelManager.hardLevel)
         {
-            agent.speed = zScritable.runSpeed;
+            agent.speed = zScriptable.runSpeed;
         }
     }
 
     private void CheckDistanceToPlayer()
     {
-        if (Vector3.Distance(transform.position, player.position) < zScritable.distanceToAttack && !isAttacking)
+        if (Vector3.Distance(transform.position, player.position) < zScriptable.distanceToAttack && !isAttacking)
         {
             StartCoroutine(Attack());
         }
