@@ -1,0 +1,54 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GunAnimations : MonoBehaviour
+{
+    [SerializeField] private Animator animator;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private GunShoot gunShoot;
+
+    private int running = Animator.StringToHash("isRunning");
+    private int shooting = Animator.StringToHash("shoot");
+    private int reloading = Animator.StringToHash("reload");
+
+    private void Update()
+    {
+        GunRunningAnim();
+        ShootAnim();
+        ReloadAnim();
+    }
+
+    private void ReloadAnim()
+    {
+        if (gunShoot.isRealoading)
+        {
+            animator.SetBool(reloading, true);
+        }
+        else
+        {
+            animator.SetBool(reloading, false);
+        }
+    }
+
+    private void ShootAnim()
+    {
+        if (gunShoot.isShooting)
+        {
+            Debug.Log("ShootAnim");
+            animator.SetTrigger(shooting);
+        }
+    }
+
+    private void GunRunningAnim()
+    {
+        if (playerMovement.isRunning)
+        {
+            animator.SetBool(running, true);
+        }
+        else
+        {
+            animator.SetBool(running, false);
+        }
+    }
+}
