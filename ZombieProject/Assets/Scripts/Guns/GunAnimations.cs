@@ -35,7 +35,6 @@ public class GunAnimations : MonoBehaviour
     {
         if (gunShoot.isShooting)
         {
-            Debug.Log("ShootAnim");
             animator.SetTrigger(shooting);
         }
     }

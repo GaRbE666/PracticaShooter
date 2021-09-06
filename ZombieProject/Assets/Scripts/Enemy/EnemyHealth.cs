@@ -62,7 +62,8 @@ public class EnemyHealth : MonoBehaviour
     private void DropRandomItem()
     {
         int numRand = Random.Range(0, 7);
-        if (Mathf.Clamp(numRand, 0, 2) >= 0 || Mathf.Clamp(numRand, 0, 2) <= 2)
+        Debug.Log(numRand);
+        if (numRand == 1)
         {
             int indexRand = Random.Range(0, zScriptable.items.Count);
             Instantiate(zScriptable.items[indexRand], itemSpawn.position, itemSpawn.rotation);
