@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class ZoneTextScript : MonoBehaviour
 {
     [SerializeField] private Text zoneText;
+    [SerializeField] private string zoneName;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            zoneText.text = zoneName;
             zoneText.gameObject.SetActive(true);
         }
     }
@@ -19,6 +21,7 @@ public class ZoneTextScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            zoneText.text = zoneName;
             zoneText.gameObject.SetActive(true);
         }
     }
