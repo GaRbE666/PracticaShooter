@@ -12,7 +12,6 @@ public class Item : MonoBehaviour
 
     private MeshRenderer meshRenderer;
     private BoxCollider boxCollider;
-    private Text timer;
     private Text timerToD;
     private float timeToDestroy;
 
@@ -21,7 +20,6 @@ public class Item : MonoBehaviour
         itemNameText = GameObject.FindGameObjectWithTag("ItemText");
         meshRenderer = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
-        timer = GameObject.Find("Timer").GetComponent<Text>();
         timerToD = GameObject.Find("Timer2").GetComponent<Text>();
     }
 
@@ -35,7 +33,6 @@ public class Item : MonoBehaviour
         if (itemCatched)
         {
             timeToDestroy -= Time.deltaTime;
-            timer.text = timeToDestroy.ToString("00");
 
         }
         else
@@ -113,14 +110,20 @@ public class Item : MonoBehaviour
         EnemyIA[] enemies = FindObjectsOfType<EnemyIA>();
         foreach (EnemyIA enemy in enemies)
         {
-            enemy.GetComponent<EnemyIA>().pointsReward *= 2;
+            if (enemy != null)
+            {
+                enemy.GetComponent<EnemyIA>().pointsReward *= 2;
+            }
         }
 
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
 
         foreach (EnemyIA enemy in enemies)
         {
-            enemy.GetComponent<EnemyIA>().pointsReward /= 2;
+            if (enemy != null)
+            {
+                enemy.GetComponent<EnemyIA>().pointsReward /= 2;
+            }
         }
 
         Destroy(gameObject);
@@ -134,11 +137,9 @@ public class Item : MonoBehaviour
 
     private IEnumerator ShowTextCoroutine()
     {
-        Debug.Log("Enciendo Texto");
         itemNameText.GetComponentInChildren<Text>().text = itemScriptable.itemName;
         itemNameText.gameObject.transform.GetChild(0).GetComponentInChildren<Text>().enabled = true;
         yield return new WaitForSeconds(4f);
-        Debug.Log("Apago texto");
         itemNameText.gameObject.transform.GetChild(0).GetComponentInChildren<Text>().enabled = false;
     }
 
