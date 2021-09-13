@@ -7,17 +7,20 @@ public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] private Transform itemSpawn;
     [SerializeField] private EnemyAnimations enemyAnimation;
+    [SerializeField] private bool alwaysDroopItem;
     public float currentHealth;
     public EnemyScriptable zScriptable;
     public bool die;
   
-    private PlayerScore playerScore;
-    private EnemyIA enemyIA;
+    private PlayerScore _playerScore;
+    private EnemyIA _enemyIA;
+    private SpawnManager _spawnManager;
 
     private void Awake()
     {
-        playerScore = FindObjectOfType<PlayerScore>();
-        enemyIA = GetComponent<EnemyIA>();
+        _playerScore = FindObjectOfType<PlayerScore>();
+        _enemyIA = GetComponent<EnemyIA>();
+        _spawnManager = FindObjectOfType<SpawnManager>();
     }
 
     // Start is called before the first frame update
@@ -36,9 +39,10 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         die = true;
+        _spawnManager.currentZombiesInScene--;
         DisableAllColliders();
         DropRandomItem();
         AddScoreToPlayer();
@@ -47,7 +51,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void AddScoreToPlayer()
     {
-        playerScore.AddScore(enemyIA.pointsReward);
+        _playerScore.AddScore(_enemyIA.pointsReward);
     }
 
     private void DisableAllColliders()
@@ -62,8 +66,7 @@ public class EnemyHealth : MonoBehaviour
     private void DropRandomItem()
     {
         int numRand = Random.Range(0, 7);
-        Debug.Log(numRand);
-        if (numRand == 1)
+        if (numRand == 1 || alwaysDroopItem)
         {
             int indexRand = Random.Range(0, zScriptable.items.Count);
             Instantiate(zScriptable.items[indexRand], itemSpawn.position, itemSpawn.rotation);

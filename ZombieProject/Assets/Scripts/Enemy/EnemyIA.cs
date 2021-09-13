@@ -7,17 +7,19 @@ public class EnemyIA : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyHealth enemyHealth;
-    [SerializeField] private LevelManager levelManager;
     public EnemyScriptable zScriptable;
     public int pointsReward;
-    private EnemyAnimations enemyAnimations;
-    private Transform player;
     public bool isAttacking;
+
+    private EnemyAnimations _enemyAnimations;
+    private Transform _player;
+    private LevelManager _levelManager;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyAnimations = GetComponent<EnemyAnimations>();
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _enemyAnimations = GetComponent<EnemyAnimations>();
+        _levelManager = FindObjectOfType<LevelManager>();
     }
 
     private void Start()
@@ -32,7 +34,7 @@ public class EnemyIA : MonoBehaviour
         {
             if (!isAttacking)
             {
-                agent.SetDestination(player.position);
+                agent.SetDestination(_player.position);
             }
             CheckDistanceToPlayer();
         }
@@ -44,12 +46,12 @@ public class EnemyIA : MonoBehaviour
 
     private void ChangeSpeedEnemy()
     {
-        if (levelManager.easyLevel)
+        if (_levelManager.easyLevel)
         {
             agent.speed = zScriptable.walkSpeed;
         }
 
-        if (levelManager.hardLevel)
+        if (_levelManager.hardLevel)
         {
             agent.speed = zScriptable.runSpeed;
         }
@@ -57,7 +59,7 @@ public class EnemyIA : MonoBehaviour
 
     private void CheckDistanceToPlayer()
     {
-        if (Vector3.Distance(transform.position, player.position) < zScriptable.distanceToAttack && !isAttacking)
+        if (Vector3.Distance(transform.position, _player.position) < zScriptable.distanceToAttack && !isAttacking)
         {
             StartCoroutine(Attack());
         }
@@ -67,7 +69,7 @@ public class EnemyIA : MonoBehaviour
     {
         isAttacking = true;
         agent.ResetPath();
-        enemyAnimations.AttackAnim();
+        _enemyAnimations.AttackAnim();
         yield return new WaitForSeconds(1f);
         isAttacking = false;
     }

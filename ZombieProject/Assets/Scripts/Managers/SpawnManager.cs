@@ -4,8 +4,86 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject[] spawns;
-    [SerializeField] private float timeToRespawn;
+    [SerializeField] private GameObject zombie;
+    [SerializeField] private Transform ZombieContainer;
 
+    [Header("Parameters")]
+    public int maxZombiesPerRound;
+    [SerializeField] private int maxZombiesInScene;
+    [SerializeField] private float maxTimeToSpawn;
+    [SerializeField] private float minTimeToSpawn;
+
+    private bool _canSpawn;
+    private bool _endRound;
+    private bool _canSpawnMore;
+    private float _timeRandomToSpawn;
+    public int currentZombiesInScene;
+    public int currentZombiesPerRound;
+
+    private void Start()
+    {
+        _canSpawnMore = true;
+        _canSpawn = true;
+    }
+
+    private void Update()
+    {
+        CheckNumberMaxOfZombiesInScene();
+        CheckMaxZombiesPerRound();
+        if (_canSpawn && _canSpawnMore && !_endRound)
+        {
+            StartCoroutine(SpawnZombie());
+        }
+    }
+
+    private void CheckNumberMaxOfZombiesInScene()
+    {
+        if (currentZombiesInScene >= maxZombiesInScene)
+        {
+            _canSpawnMore = false;
+        }
+        else
+        {
+            _canSpawnMore = true;
+        }
+    }
+
+    private void CheckMaxZombiesPerRound()
+    {
+        if (currentZombiesPerRound >= maxZombiesPerRound)
+        {
+            _endRound = true;
+        }
+        else
+        {
+            _endRound = false;
+        }
+    }
+
+    private IEnumerator SpawnZombie()
+    {
+        _canSpawn = false;
+        _timeRandomToSpawn = Random.Range(minTimeToSpawn, maxTimeToSpawn + 1);
+        SpawnOneZombie();
+        yield return new WaitForSeconds(_timeRandomToSpawn);
+        _canSpawn = true;
+    }
+
+    private void SpawnOneZombie()
+    {
+        int spawnRandom = SelectOneSpawn();
+        GameObject zombieClone = Instantiate(zombie, spawns[spawnRandom].transform.position, spawns[spawnRandom].transform.rotation);
+        zombieClone.transform.SetParent(ZombieContainer);
+        currentZombiesInScene++;
+        currentZombiesPerRound++;
+    }
+
+    private int SelectOneSpawn()
+    {
+        return Random.Range(0, spawns.Length);
+
+    }
 
 }

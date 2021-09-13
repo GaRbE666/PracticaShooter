@@ -7,12 +7,17 @@ public class EnemyAnimations : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyHealth enemyHealth;
     [SerializeField] private EnemyIA enemyIA;
-    [SerializeField] private LevelManager levelManager;
-
+    
+    private LevelManager _levelManager;
     private int die = Animator.StringToHash("die");
     private int attack = Animator.StringToHash("attack");
     private int run = Animator.StringToHash("isRunning");
     private int walk = Animator.StringToHash("isWalking");
+
+    private void Awake()
+    {
+        _levelManager = FindObjectOfType<LevelManager>();
+    }
 
     private void Update()
     {
@@ -24,7 +29,7 @@ public class EnemyAnimations : MonoBehaviour
 
     private void RunAnim()
     {
-        if (levelManager.hardLevel)
+        if (_levelManager.hardLevel)
         {
             animator.SetBool(run, true);
         }
@@ -36,7 +41,7 @@ public class EnemyAnimations : MonoBehaviour
 
     private void WalkAnim()
     {
-        if (levelManager.easyLevel)
+        if (_levelManager.easyLevel)
         {
             animator.SetBool(walk, true);
         }

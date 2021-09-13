@@ -1742,13 +1742,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4944557120045017577}
   - component: {fileID: 4944557120045017576}
+  - component: {fileID: 5522556173795811769}
   m_Layer: 9
   m_Name: LeftArmCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4944557120045017577
 Transform:
   m_ObjectHideFlags: 0
@@ -1776,6 +1777,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.10276035, y: 0.3410927, z: 0.10611738}
   m_Center: {x: 0.007068991, y: -0.07054636, z: 0.0050074533}
+--- !u!114 &5522556173795811769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944557120045017574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ddc7c4a640be843868e62df6db7987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4944557120343602573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3573,6 +3586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSpawn: {fileID: 4944557119416412894}
   enemyAnimation: {fileID: 8845930624022687051}
+  alwaysDroopItem: 1
   currentHealth: 0
   zScriptable: {fileID: 11400000, guid: 5df7924b9f6c09741a08e2d880424543, type: 2}
   die: 0
@@ -3591,7 +3605,6 @@ MonoBehaviour:
   animator: {fileID: 2455118281210425888}
   enemyHealth: {fileID: 8845930624022687048}
   enemyIA: {fileID: 8845930624022687050}
-  levelManager: {fileID: 0}
 --- !u!114 &8845930624022687050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3606,7 +3619,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 8845930624022687053}
   enemyHealth: {fileID: 8845930624022687048}
-  levelManager: {fileID: 0}
   zScriptable: {fileID: 11400000, guid: 5df7924b9f6c09741a08e2d880424543, type: 2}
   pointsReward: 0
   isAttacking: 0

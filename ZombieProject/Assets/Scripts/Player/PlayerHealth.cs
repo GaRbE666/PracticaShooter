@@ -9,6 +9,11 @@ public class PlayerHealth : MonoBehaviour
 
     private PlayerMovement _playerMovement;
 
+    private void Awake()
+    {
+        _playerMovement = GetComponent<PlayerMovement>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

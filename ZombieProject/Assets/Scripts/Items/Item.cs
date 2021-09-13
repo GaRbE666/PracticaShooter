@@ -33,6 +33,10 @@ public class Item : MonoBehaviour
         if (itemCatched)
         {
             timeToDestroy -= Time.deltaTime;
+            if (timeToDestroy <= 0)
+            {
+                Destroy(gameObject);
+            }
 
         }
         else
@@ -75,7 +79,29 @@ public class Item : MonoBehaviour
             case ItemScriptable.itemEnumType.Cash:
                 Cash(other);
                 break;
+            case ItemScriptable.itemEnumType.Kaboom:
+                Kaboom();
+                break;
 
+        }
+    }
+
+    private void Kaboom()
+    {
+        EnemyHealth[] enemies = FindObjectsOfType<EnemyHealth>();
+        List<EnemyHealth> enemiesAlive = new List<EnemyHealth>();
+
+        foreach (EnemyHealth enemy in enemies)
+        {
+            if (!enemy.die)
+            {
+                enemiesAlive.Add(enemy);
+            }
+        }
+
+        foreach (EnemyHealth enemy in enemiesAlive)
+        {
+            enemy.Die();
         }
     }
 
