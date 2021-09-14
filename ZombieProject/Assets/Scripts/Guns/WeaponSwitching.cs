@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponSwitching : MonoBehaviour
 {
 
-    [SerializeField] private int selectedWeapon;
+    public int selectedWeapon;
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +83,7 @@ public class WeaponSwitching : MonoBehaviour
         }
     }
 
-    private void SelectedWeapon()
+    public void SelectedWeapon()
     {
         int i = 0;
 

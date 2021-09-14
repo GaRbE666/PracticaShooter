@@ -5,12 +5,17 @@ using UnityEngine;
 public class GunAnimations : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GunShoot gunShoot;
 
+    private PlayerMovement playerMovement;
     private int running = Animator.StringToHash("isRunning");
     private int shooting = Animator.StringToHash("shoot");
     private int reloading = Animator.StringToHash("reload");
+
+    private void Awake()
+    {
+        playerMovement = FindObjectOfType<PlayerMovement>();
+    }
 
     private void Update()
     {

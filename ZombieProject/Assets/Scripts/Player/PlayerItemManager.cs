@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerItemManager : MonoBehaviour
 {
 
-    [SerializeField] GunShoot[] gunShoots;
-    [SerializeField] GrenadeThrower[] grenades;
+    public List<GunShoot> gunShoots;
+    public List<GrenadeThrower> grenades;
 
     public void MaxAmmo()
     {

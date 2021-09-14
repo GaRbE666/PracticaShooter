@@ -6,12 +6,11 @@ using UnityEngine.UI;
 public class GunShoot : MonoBehaviour
 {
     [SerializeField] public GunScriptable gunScriptable;
-    [SerializeField] private Camera cam;
     [SerializeField] private GameObject muzzleParticles;
     [SerializeField] private Transform muzzlePosition;
     [SerializeField] private GameObject impactEffect;
-    [SerializeField] private Text chargeAmmoText;
-    [SerializeField] private Text bedroomAmmoText;
+    private Text chargeAmmoText;
+    private Text bedroomAmmoText;
 
     public bool isShooting;
     public bool isRealoading;
@@ -20,10 +19,14 @@ public class GunShoot : MonoBehaviour
     public int currentBedroomAmmo;
     private float nextTimeToFire;
     private PlayerMovement playerMovement;
+    private Camera cam;
 
     private void Awake()
     {
-        playerMovement = GetComponentInParent<PlayerMovement>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
+        chargeAmmoText = FindObjectOfType<chargerAmmo>().GetComponent<Text>();
+        bedroomAmmoText = FindObjectOfType<bedroomAmmo>().GetComponent<Text>();
+        cam = Camera.main;
     }
 
     private void Start()
