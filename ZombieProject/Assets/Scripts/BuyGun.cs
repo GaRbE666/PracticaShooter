@@ -48,7 +48,7 @@ public class BuyGun : MonoBehaviour
                     if (!isGranede)
                     {
                         newGunPos = new Vector3(other.transform.position.x, other.transform.position.y + .5f, other.transform.position.z);
-                        GameObject gunClone = Instantiate(gunPrefab.gameObject, newGunPos, Quaternion.Euler(0, 0, 0));
+                        GameObject gunClone = Instantiate(gunPrefab.gameObject, newGunPos, gunPrefab.gameObject.transform.rotation);
                         PlayerItemManager pim = other.GetComponent<PlayerItemManager>();
                         pim.gunShoots.Add(gunClone.GetComponent<GunShoot>());
                         gunClone.transform.SetParent(gunSpawn);

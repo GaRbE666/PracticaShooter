@@ -783,14 +783,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunScriptable: {fileID: 11400000, guid: f6effd60fa7c2d94b868f97ba7330103, type: 2}
-  cam: {fileID: 0}
   muzzleParticles: {fileID: 3049720734031938686, guid: 364be8b9b65c06745a3247d2a3c830be,
     type: 3}
   muzzlePosition: {fileID: 5444895083601189728}
-  impactEffect: {fileID: 2368672488995491886, guid: c325e8e5707165248ac6fe8fdf59e863,
+  impactEffect: {fileID: 3707847782911869976, guid: 0f0316fea276b934d9920d3abea10fc9,
     type: 3}
-  chargeAmmoText: {fileID: 0}
-  bedroomAmmoText: {fileID: 0}
   isShooting: 0
   isRealoading: 0
   currentChargerAmmo: 0
@@ -808,7 +805,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3747917709034357265}
-  playerMovement: {fileID: 0}
   gunShoot: {fileID: 3747917709034357264}
 --- !u!1 &3884445905807413721
 GameObject:
