@@ -7,6 +7,7 @@ TagManager:
   - FxTemporaire
   - zombie
   - ItemText
+  - PerkText
   layers:
   - Default
   - TransparentFX

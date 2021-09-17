@@ -9,9 +9,6 @@ public class GrenadeThrower : MonoBehaviour
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private Transform grenadeSpawn;
     [SerializeField] private GameObject fakeGrenade;
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private Text chargeAmmoText;
-    [SerializeField] private Text bedroomAmmoText;
 
     public int _currentChargerAmmo;
     public int _currentBedroomAmmo;
@@ -19,6 +16,9 @@ public class GrenadeThrower : MonoBehaviour
     public bool _isReloading;
     private Animator _animator;
     private float _nextTimeToTrhow;
+    private PlayerMovement playerMovement;
+    private Text chargeAmmoText;
+    private Text bedroomAmmoText;
 
     private int running = Animator.StringToHash("isRunning");
     private int throwGrenade = Animator.StringToHash("throw");
@@ -26,6 +26,9 @@ public class GrenadeThrower : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        playerMovement = FindObjectOfType<PlayerMovement>();
+        chargeAmmoText = FindObjectOfType<chargerAmmo>().GetComponent<Text>();
+        bedroomAmmoText = FindObjectOfType<bedroomAmmo>().GetComponent<Text>();
     }
 
     private void OnEnable()

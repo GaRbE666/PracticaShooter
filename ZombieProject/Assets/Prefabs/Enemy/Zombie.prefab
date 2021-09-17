@@ -3494,6 +3494,7 @@ GameObject:
   - component: {fileID: 8845930624022687048}
   - component: {fileID: 8845930624022687051}
   - component: {fileID: 8845930624022687050}
+  - component: {fileID: 6009488982445414148}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: zombie
@@ -3622,6 +3623,20 @@ MonoBehaviour:
   zScriptable: {fileID: 11400000, guid: 5df7924b9f6c09741a08e2d880424543, type: 2}
   pointsReward: 0
   isAttacking: 0
+--- !u!136 &6009488982445414148
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845930624022687049}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.28
+  m_Height: 1.86
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.84, z: 0}
 --- !u!1 &9076555053405809515
 GameObject:
   m_ObjectHideFlags: 0

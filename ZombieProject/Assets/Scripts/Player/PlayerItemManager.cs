@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerItemManager : MonoBehaviour
 {
 
     public List<GunShoot> gunShoots;
     public List<GrenadeThrower> grenades;
+
+    private Text itemNameText;
+
+    private void Awake()
+    {
+        itemNameText = FindObjectOfType<PowerUpName>().GetComponent<Text>();
+    }
 
     public void MaxAmmo()
     {
@@ -31,5 +39,21 @@ public class PlayerItemManager : MonoBehaviour
             }
         }
     }
-    
+
+    public void ShowText(string powerUpName)
+    {
+        StartCoroutine(ShowTextCoroutine(powerUpName));
+    }
+
+    public IEnumerator ShowTextCoroutine(string powerUpName)
+    {
+        itemNameText.text = powerUpName;
+        itemNameText.enabled = true;
+        Debug.Log("Activo texto");
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Descativo texto");
+        itemNameText.enabled = false;
+    }
+
+
 }

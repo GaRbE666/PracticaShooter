@@ -7,20 +7,21 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private float timeToDisappear;
     public ItemScriptable itemScriptable;
+
     private bool itemCatched;
-    private GameObject itemNameText;
 
     private MeshRenderer meshRenderer;
     private BoxCollider boxCollider;
-    private Text timerToD;
+    private Text powerUpTimerEffect;
     private float timeToDestroy;
+    private PlayerItemManager playerItemManager;
 
     private void Awake()
     {
-        itemNameText = GameObject.FindGameObjectWithTag("ItemText");
+        playerItemManager = FindObjectOfType<PlayerItemManager>();
         meshRenderer = GetComponent<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
-        timerToD = GameObject.Find("Timer2").GetComponent<Text>();
+        powerUpTimerEffect = FindObjectOfType<PowerUpTimer>().GetComponent<Text>();
     }
 
     private void Start()
@@ -33,6 +34,7 @@ public class Item : MonoBehaviour
         if (itemCatched)
         {
             timeToDestroy -= Time.deltaTime;
+            UpdatePowerUpText();
             if (timeToDestroy <= 0)
             {
                 Destroy(gameObject);
@@ -42,11 +44,21 @@ public class Item : MonoBehaviour
         else
         {
             timeToDisappear -= Time.deltaTime;
-            timerToD.text = timeToDisappear.ToString("00");
+            
             if (timeToDisappear <= 0)
             {
                 Destroy(gameObject);
             }
+        }
+    }
+
+    private void UpdatePowerUpText()
+    {
+        powerUpTimerEffect.enabled = true;
+        powerUpTimerEffect.text = timeToDestroy.ToString("00");
+        if (timeToDestroy <= 0)
+        {
+            powerUpTimerEffect.enabled = false;
         }
     }
 
@@ -57,7 +69,7 @@ public class Item : MonoBehaviour
             itemCatched = true;
             meshRenderer.enabled = false;
             boxCollider.enabled = false;
-            StartCoroutine(ShowTextCoroutine());
+            playerItemManager.ShowText(itemScriptable.name);
             SelectItem(other);
             
         }
@@ -159,14 +171,6 @@ public class Item : MonoBehaviour
     {
         other.GetComponent<PlayerScore>().AddScore(1000);
         Destroy(gameObject);
-    }
-
-    private IEnumerator ShowTextCoroutine()
-    {
-        itemNameText.GetComponentInChildren<Text>().text = itemScriptable.itemName;
-        itemNameText.gameObject.transform.GetChild(0).GetComponentInChildren<Text>().enabled = true;
-        yield return new WaitForSeconds(4f);
-        itemNameText.gameObject.transform.GetChild(0).GetComponentInChildren<Text>().enabled = false;
     }
 
 }

@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     public int pointsRequired;
     [SerializeField] private Text doorText;
     [SerializeField] private GameObject[] doors;
+    [SerializeField] private bool electricityRequired;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,13 +25,15 @@ public class Door : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("Pulso la F");
-                PlayerScore playerScore = other.GetComponent<PlayerScore>();
-                if (playerScore.score >= pointsRequired)
+                if (!electricityRequired)
                 {
-                    doorText.enabled = false;
-                    playerScore.QuitScore(pointsRequired);
-                    DisableAllDoors();
+                    PlayerScore playerScore = other.GetComponent<PlayerScore>();
+                    if (playerScore.score >= pointsRequired)
+                    {
+                        doorText.enabled = false;
+                        playerScore.QuitScore(pointsRequired);
+                        DisableAllDoors();
+                    }
                 }
             }
         }
@@ -46,7 +49,15 @@ public class Door : MonoBehaviour
 
     private void ChangeTextValue()
     {
-        doorText.text = "Press F to open door (" + pointsRequired + ")";
+        if (electricityRequired)
+        {
+            doorText.text = "Electricity is required to open the door";
+        }
+        else
+        {
+            doorText.text = "Press F to open door (" + pointsRequired + ")";
+        }
+        
     }
 
     private void DisableAllDoors()

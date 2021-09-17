@@ -17,6 +17,7 @@ public class GunShoot : MonoBehaviour
 
     public int currentChargerAmmo;
     public int currentBedroomAmmo;
+    public float reloadTime;
     private float nextTimeToFire;
     private PlayerMovement playerMovement;
     private Camera cam;
@@ -37,7 +38,7 @@ public class GunShoot : MonoBehaviour
 
     private void InitializeVariables()
     {
-        
+        reloadTime = gunScriptable.reloadingtime;
     }
 
     private void InitializeAmmo()
@@ -129,7 +130,7 @@ public class GunShoot : MonoBehaviour
     {
         isRealoading = true;
         currentBedroomAmmo -= (gunScriptable.maxBulletPerCharger - currentChargerAmmo);
-        yield return new WaitForSeconds(gunScriptable.reloadingtime);
+        yield return new WaitForSeconds(reloadTime);
         currentChargerAmmo = gunScriptable.maxBulletPerCharger;
         isRealoading = false;
         UpdateAmmoTexts();

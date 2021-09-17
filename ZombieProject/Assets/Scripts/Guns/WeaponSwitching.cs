@@ -49,11 +49,6 @@ public class WeaponSwitching : MonoBehaviour
         {
             selectedWeapon = 2;
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            selectedWeapon = 3;
-        }
     }
 
     private void SelectWeaponWithMouse()
