@@ -6,9 +6,8 @@ public class PlayerPerkManager : MonoBehaviour
 {
     private PlayerHealth playerHealth;
     private GunShoot[] gunsShoots;
-    private GunAnimations[] gunsAnimations;
     private bool quickReviveActive;
-    private bool speedColaActive;
+    public bool speedColaActive;
 
     private void Awake()
     {
@@ -62,13 +61,9 @@ public class PlayerPerkManager : MonoBehaviour
     private void SpeedColaEffect()
     {
         gunsShoots = FindObjectsOfType<GunShoot>();
-        gunsAnimations = FindObjectsOfType<GunAnimations>();
         foreach (GunShoot gun in gunsShoots)
         {
             gun.reloadTime /= 2;
-            Debug.Log("normal speed: " + gun.GetComponent<GunAnimations>().animator.speed);
-            gun.GetComponent<GunAnimations>().animator.speed *= 1.2f;
-            Debug.Log("fastes speed: " + gun.GetComponent<GunAnimations>().animator.speed);
         }
 
     }

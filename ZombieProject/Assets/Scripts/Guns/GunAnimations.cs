@@ -7,14 +7,17 @@ public class GunAnimations : MonoBehaviour
     public Animator animator;
     [SerializeField] private GunShoot gunShoot;
 
+    private PlayerPerkManager playerPerkManager;
     private PlayerMovement playerMovement;
     private int running = Animator.StringToHash("isRunning");
     private int shooting = Animator.StringToHash("shoot");
-    public int reloading = Animator.StringToHash("reload");
+    private int reloading = Animator.StringToHash("reload");
+    private int reloadingMulti = Animator.StringToHash("reloadMultiplier");
 
     private void Awake()
     {
         playerMovement = FindObjectOfType<PlayerMovement>();
+        playerPerkManager = FindObjectOfType<PlayerPerkManager>();
     }
 
     private void Update()
@@ -22,6 +25,7 @@ public class GunAnimations : MonoBehaviour
         GunRunningAnim();
         ShootAnim();
         ReloadAnim();
+        AddMultiplierSpeed();
     }
 
     private void ReloadAnim()
@@ -53,6 +57,18 @@ public class GunAnimations : MonoBehaviour
         else
         {
             animator.SetBool(running, false);
+        }
+    }
+
+    private void AddMultiplierSpeed()
+    {
+        if (playerPerkManager.speedColaActive)
+        {
+            animator.SetFloat(reloadingMulti, 2.0f);
+        }
+        else
+        {
+            animator.SetFloat(reloadingMulti, 1.0f);
         }
     }
 }
