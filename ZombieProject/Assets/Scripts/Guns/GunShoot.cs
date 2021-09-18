@@ -18,6 +18,7 @@ public class GunShoot : MonoBehaviour
     public int currentChargerAmmo;
     public int currentBedroomAmmo;
     public float reloadTime;
+    public float fireRate;
     private float nextTimeToFire;
     private PlayerMovement playerMovement;
     private Camera cam;
@@ -39,6 +40,7 @@ public class GunShoot : MonoBehaviour
     private void InitializeVariables()
     {
         reloadTime = gunScriptable.reloadingtime;
+        fireRate = gunScriptable.fireRate;
     }
 
     private void InitializeAmmo()

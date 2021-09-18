@@ -7,6 +7,7 @@ public class Perk : MonoBehaviour
 {
     [SerializeField] private string perkName;
     [SerializeField] private int cost;
+    [SerializeField] private Sprite perkIcon;
     public enum TypeOfPerks { QuickRevive, Juggernaut, SpeedCola, DoubleTap, StamminUp};
     public TypeOfPerks perkType;
 
@@ -24,7 +25,6 @@ public class Perk : MonoBehaviour
     private void Start()
     {
         perkText.enabled = false;
-        UpdatePerkText();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,6 +33,7 @@ public class Perk : MonoBehaviour
         {
             if (canBuy)
             {
+                UpdatePerkText();
                 perkText.enabled = true;
             }
         }
@@ -53,7 +54,7 @@ public class Perk : MonoBehaviour
                         perkText.enabled = false;
                         canBuy = false;
                         playerScore.QuitScore(cost);
-                        playerPerkManager.SelectPerk(perkType, gameObject.transform.parent.gameObject);
+                        playerPerkManager.SelectPerk(perkType, perkIcon);
                     }
                 }
             }

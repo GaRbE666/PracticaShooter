@@ -128,7 +128,6 @@ public class Item : MonoBehaviour
         foreach (EnemyHealth enemy in enemies)
         {
             enemy.GetComponent<EnemyHealth>().currentHealth = 1;
-            Debug.Log(enemy.GetComponent<EnemyHealth>().currentHealth);
         }
 
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);

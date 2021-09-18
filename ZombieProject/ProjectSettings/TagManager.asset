@@ -8,6 +8,7 @@ TagManager:
   - zombie
   - ItemText
   - PerkText
+  - PerksImageParent
   layers:
   - Default
   - TransparentFX

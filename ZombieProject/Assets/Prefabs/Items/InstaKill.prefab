@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5552477928320400787}
   - component: {fileID: 5552477928320400784}
   - component: {fileID: 5552477928320400785}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: InstaKill
   m_TagString: Untagged
   m_Icon: {fileID: 0}

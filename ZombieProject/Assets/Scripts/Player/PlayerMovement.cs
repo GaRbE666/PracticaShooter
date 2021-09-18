@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] private CharacterController controller;
     [SerializeField] private float playerSpeed;
-    [SerializeField] private float playerRunSpeed;
+    public float playerRunSpeed;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpHeight;
 

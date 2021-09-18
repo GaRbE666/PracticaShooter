@@ -49,9 +49,7 @@ public class PlayerItemManager : MonoBehaviour
     {
         itemNameText.text = powerUpName;
         itemNameText.enabled = true;
-        Debug.Log("Activo texto");
         yield return new WaitForSeconds(3f);
-        Debug.Log("Descativo texto");
         itemNameText.enabled = false;
     }
 
