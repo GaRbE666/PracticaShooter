@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponSwitching : MonoBehaviour
 {
 
-    public int selectedWeapon;
+    [HideInInspector] public int selectedWeapon;
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +53,7 @@ public class WeaponSwitching : MonoBehaviour
 
     private void SelectWeaponWithMouse()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             if (selectedWeapon >= transform.childCount - 1)
             {
@@ -65,7 +65,7 @@ public class WeaponSwitching : MonoBehaviour
             }
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             if (selectedWeapon <= 0)
             {

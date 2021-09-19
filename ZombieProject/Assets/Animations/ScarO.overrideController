@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ScarO
+  m_Controller: {fileID: 9100000, guid: a9efe7305734528418160c8f20954fca, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 1c75ddbe08a2bd34890a93aaf2d46c9f, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4ea983821bcfe164990415f4600eb2df, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: c44d16a549346a84aa28b906d14555be, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 85917ff2e0158504387ecf1ff8f47b0e, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: e08356688bae12548b50a9a8f4a5eede, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 010baa54eda1d1843a0b4ad94c380cf4, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 3768a107592660c4cae63296395d7008, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7b535f5f5793e9741a73a585ed6958e9, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 4e5fa158baf65db40a00ea3a6972b63e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f33458304bba1454ebe4a2e06973d1df, type: 3}

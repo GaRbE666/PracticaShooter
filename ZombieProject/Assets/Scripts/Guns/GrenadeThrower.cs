@@ -5,36 +5,42 @@ using UnityEngine.UI;
 
 public class GrenadeThrower : MonoBehaviour
 {
+    [Header("GameObjects References")]
     public GunScriptable grenadeScriptable;
     [SerializeField] private GameObject grenadePrefab;
     [SerializeField] private Transform grenadeSpawn;
     [SerializeField] private GameObject fakeGrenade;
+    [Header("Texts References")]
+    [SerializeField] private Text grenadeNameText;
+    [SerializeField] private Text noAmmoText;
 
-    public int _currentChargerAmmo;
-    public int _currentBedroomAmmo;
-    public bool _isShooting;
-    public bool _isReloading;
+    [HideInInspector] public int _currentChargerAmmo;
+    [HideInInspector] public int _currentBedroomAmmo;
+    [HideInInspector] public bool _isShooting;
+    [HideInInspector] public bool _isReloading;
+
     private Animator _animator;
     private float _nextTimeToTrhow;
-    private PlayerMovement playerMovement;
-    private Text chargeAmmoText;
-    private Text bedroomAmmoText;
+    private PlayerMovement _playerMovement;
+    private Text _chargeAmmoText;
+    private Text _bedroomAmmoText;
 
-    private int running = Animator.StringToHash("isRunning");
-    private int throwGrenade = Animator.StringToHash("throw");
+    private int _running = Animator.StringToHash("isRunning");
+    private int _throwGrenade = Animator.StringToHash("throw");
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        playerMovement = FindObjectOfType<PlayerMovement>();
-        chargeAmmoText = FindObjectOfType<chargerAmmo>().GetComponent<Text>();
-        bedroomAmmoText = FindObjectOfType<bedroomAmmo>().GetComponent<Text>();
+        _playerMovement = FindObjectOfType<PlayerMovement>();
+        _chargeAmmoText = FindObjectOfType<chargerAmmo>().GetComponent<Text>();
+        _bedroomAmmoText = FindObjectOfType<bedroomAmmo>().GetComponent<Text>();
     }
 
     private void OnEnable()
     {
         UpdateAmmoText();
         _isReloading = false;
+        grenadeNameText.text = grenadeScriptable.name;
     }
 
     private void Start()
@@ -104,28 +110,28 @@ public class GrenadeThrower : MonoBehaviour
 
     private void ChangeAnimations()
     {
-        if (playerMovement.isRunning)
+        if (_playerMovement.isRunning)
         {
-            _animator.SetBool(running, true);
+            _animator.SetBool(_running, true);
         }
         else
         {
-            _animator.SetBool(running, false);
+            _animator.SetBool(_running, false);
         }
 
         if (_isShooting)
         {
-            _animator.SetTrigger(throwGrenade);
+            _animator.SetTrigger(_throwGrenade);
         }
     }
 
     private IEnumerator ThrowGranade()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
         SpendAmmo();
         GameObject grenadeClone = Instantiate(grenadePrefab, grenadeSpawn.position, grenadeSpawn.rotation);
         Rigidbody rb = grenadeClone.GetComponent<Rigidbody>();
-        if (playerMovement.xRotation < -10)
+        if (_playerMovement.xRotation < -10)
         {
             rb.AddForce(grenadeSpawn.forward * (grenadeScriptable.range + 5), ForceMode.VelocityChange);
         }
@@ -152,16 +158,27 @@ public class GrenadeThrower : MonoBehaviour
 
     public void UpdateAmmoText()
     {
-        chargeAmmoText.text = _currentChargerAmmo.ToString();
-        bedroomAmmoText.text = _currentBedroomAmmo.ToString();
+        
+        if (_currentChargerAmmo == 0)
+        {
+            noAmmoText.text = "No ammo";
+            noAmmoText.color = Color.red;
+        }
+        else
+        {
+            noAmmoText.text = "";
+        }
+
+        _chargeAmmoText.text = _currentChargerAmmo.ToString();
+        _bedroomAmmoText.text = _currentBedroomAmmo.ToString();
         if (_currentBedroomAmmo <= 0)
         {
-            bedroomAmmoText.text = "0";
+            _bedroomAmmoText.text = "0";
         }
 
         if (_currentChargerAmmo <= 0)
         {
-            chargeAmmoText.text = "0";
+            _chargeAmmoText.text = "0";
         }
     }
 }

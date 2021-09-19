@@ -26,29 +26,29 @@ public class PlayerPerkManager : MonoBehaviour
         }
     }
 
-    public void SelectPerk(Perk.TypeOfPerks perkType, Sprite perkIcon)
+    public void SelectPerk(ScriptablePerk.TypeOfPerks perkType, Sprite perkIcon)
     {
         
         switch (perkType)
         {
-            case Perk.TypeOfPerks.QuickRevive:
+            case ScriptablePerk.TypeOfPerks.QuickRevive:
                 perksAdquired++;
                 QuickReviveEffect();
                 break;
-            case Perk.TypeOfPerks.Juggernaut:
+            case ScriptablePerk.TypeOfPerks.Juggernaut:
                 perksAdquired++;
                 JuggernautEffect();
                 break;
-            case Perk.TypeOfPerks.SpeedCola:
+            case ScriptablePerk.TypeOfPerks.SpeedCola:
                 speedColaActive = true;
                 perksAdquired++;
                 SpeedColaEffect();
                 break;
-            case Perk.TypeOfPerks.DoubleTap:
+            case ScriptablePerk.TypeOfPerks.DoubleTap:
                 DoubleTapEffect();
                 perksAdquired++;
                 break;
-            case Perk.TypeOfPerks.StamminUp:
+            case ScriptablePerk.TypeOfPerks.StamminUp:
                 StammingUpEffect();
                 perksAdquired++;
                 break;

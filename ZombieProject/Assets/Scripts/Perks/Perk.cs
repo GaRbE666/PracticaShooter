@@ -5,36 +5,39 @@ using UnityEngine.UI;
 
 public class Perk : MonoBehaviour
 {
-    [SerializeField] private string perkName;
-    [SerializeField] private int cost;
-    [SerializeField] private Sprite perkIcon;
-    public enum TypeOfPerks { QuickRevive, Juggernaut, SpeedCola, DoubleTap, StamminUp};
-    public TypeOfPerks perkType;
+    [SerializeField] private ScriptablePerk scriptablePerk;
 
-    private Text perkText;
-    private bool canBuy = true;
-    private PlayerPerkManager playerPerkManager;
+    private Text _perkText;
+    private bool _canBuy;
+    private PlayerPerkManager _playerPerkManager;
+    private PowerOn powerOn;
 
     private void Awake()
     {
-        playerPerkManager = FindObjectOfType<PlayerPerkManager>();
-        perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
-        gameObject.transform.parent.name = perkName;
+        _playerPerkManager = FindObjectOfType<PlayerPerkManager>();
+        _perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
+        powerOn = FindObjectOfType<PowerOn>();
     }
 
     private void Start()
     {
-        perkText.enabled = false;
+        _perkText.enabled = false;
+        powerOn.PowerOnReleased += TurnOnPerk;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (canBuy)
+            if (_canBuy)
             {
                 UpdatePerkText();
-                perkText.enabled = true;
+                _perkText.enabled = true;
+            }
+            else
+            {
+                _perkText.text = "Power is required";
+                _perkText.enabled = true;
             }
         }
     }
@@ -43,18 +46,18 @@ public class Perk : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (canBuy)
+            if (_canBuy)
             {
-                perkText.enabled = true;
+                _perkText.enabled = true;
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     PlayerScore playerScore = other.GetComponent<PlayerScore>();
-                    if (playerScore.score >= cost)
+                    if (playerScore.score >= scriptablePerk.cost)
                     {
-                        perkText.enabled = false;
-                        canBuy = false;
-                        playerScore.QuitScore(cost);
-                        playerPerkManager.SelectPerk(perkType, perkIcon);
+                        _perkText.enabled = false;
+                        _canBuy = false;
+                        playerScore.QuitScore(scriptablePerk.cost);
+                        _playerPerkManager.SelectPerk(scriptablePerk.perkType, scriptablePerk.perkIcon);
                     }
                 }
             }
@@ -65,12 +68,17 @@ public class Perk : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            perkText.enabled = false;
+            _perkText.enabled = false;
         }
+    }
+
+    private void TurnOnPerk()
+    {
+        _canBuy = true;
     }
 
     private void UpdatePerkText()
     {
-        perkText.text = "Press F to buy " + perkName + " (" + cost + ")";
+        _perkText.text = "Press F to buy " + scriptablePerk.name + " (" + scriptablePerk.cost + ")" + "\n[" + scriptablePerk.description + "]";
     }
 }

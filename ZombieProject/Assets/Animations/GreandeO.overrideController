@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GreandeO
+  m_Controller: {fileID: 9100000, guid: 02a78f48d79cf4a4ab2228626d1cb1a2, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: ba9c9d9c8df59ce41a8f548399cbb4ba, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4e269c9671ca582498160ebccffa8fa9, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: f333b94b1a665eb4f86f4ede5bfa835e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7af5c5d655502f342a91183555022698, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 05b1d2e7c76d5714bbc6268bc6af40db, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 34e698c1a118b6e4996ae4ac5c6b51ba, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 8fc6930b22377bf4ab0514a243c6dac2, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dbf1f12610c4e9749968e193530886e7, type: 3}

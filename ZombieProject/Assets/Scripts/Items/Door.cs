@@ -10,6 +10,18 @@ public class Door : MonoBehaviour
     [SerializeField] private GameObject[] doors;
     [SerializeField] private bool electricityRequired;
 
+    private PowerOn _powerOn;
+
+    private void Awake()
+    {
+        _powerOn = FindObjectOfType<PowerOn>();
+    }
+
+    private void Start()
+    {
+        _powerOn.PowerOnReleased += DisablePowerDoor;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -65,6 +77,17 @@ public class Door : MonoBehaviour
         foreach (GameObject door in doors)
         {
             door.SetActive(false);
+        }
+    }
+
+    private void DisablePowerDoor()
+    {
+        if (electricityRequired)
+        {
+            foreach (GameObject door in doors)
+            {
+                door.SetActive(false);
+            }
         }
     }
 }
