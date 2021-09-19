@@ -16,9 +16,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float minTimeToSpawn;
 
     private bool _canSpawn;
-    private bool _endRound;
     private bool _canSpawnMore;
     private float _timeRandomToSpawn;
+    [HideInInspector] public bool _endRound;
     public int currentZombiesInScene;
     public int currentZombiesPerRound;
 
@@ -40,7 +40,7 @@ public class SpawnManager : MonoBehaviour
 
     private void CheckNumberMaxOfZombiesInScene()
     {
-        if (currentZombiesInScene >= maxZombiesInScene)
+        if (currentZombiesInScene >= maxZombiesInScene || currentZombiesPerRound == maxZombiesPerRound)
         {
             _canSpawnMore = false;
         }
@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
 
     private void CheckMaxZombiesPerRound()
     {
-        if (currentZombiesPerRound >= maxZombiesPerRound)
+        if (currentZombiesPerRound >= maxZombiesPerRound && currentZombiesInScene == 0)
         {
             _endRound = true;
         }
@@ -84,6 +84,12 @@ public class SpawnManager : MonoBehaviour
     {
         return Random.Range(0, spawns.Length);
 
+    }
+
+    public void ResetAllCurrentZombies()
+    {
+        currentZombiesInScene = 0;
+        currentZombiesPerRound = 0;
     }
 
 }

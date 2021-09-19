@@ -13,13 +13,13 @@ public class EnemyIA : MonoBehaviour
 
     private EnemyAnimations _enemyAnimations;
     private Transform _player;
-    private LevelManager _levelManager;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _enemyAnimations = GetComponent<EnemyAnimations>();
-        _levelManager = FindObjectOfType<LevelManager>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Start()
@@ -46,12 +46,12 @@ public class EnemyIA : MonoBehaviour
 
     private void ChangeSpeedEnemy()
     {
-        if (_levelManager.easyLevel)
+        if (_gameManager.currentRound <= 3)
         {
             agent.speed = zScriptable.walkSpeed;
         }
 
-        if (_levelManager.hardLevel)
+        if (_gameManager.currentRound > 3)
         {
             agent.speed = zScriptable.runSpeed;
         }
