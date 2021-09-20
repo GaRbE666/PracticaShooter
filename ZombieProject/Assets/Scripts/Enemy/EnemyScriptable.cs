@@ -10,6 +10,7 @@ public class EnemyScriptable : ScriptableObject
     public float walkSpeed;
     public float runSpeed;
     public float distanceToAttack;
+    public float distanceToStop;
     public int pointReward;
     public List<GameObject> items;
 }

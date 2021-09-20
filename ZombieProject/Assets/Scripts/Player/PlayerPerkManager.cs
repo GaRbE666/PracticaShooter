@@ -11,6 +11,11 @@ public class PlayerPerkManager : MonoBehaviour
     private PlayerHealth playerHealth;
     private GunShoot gunsShoots;
     private PlayerMovement playerMovement;
+    public bool quickAdquired;
+    public bool juggerAdquired;
+    public bool speedColaAdquired;
+    public bool doubleTapAdquired;
+    public bool stamminUpAdquired;
 
     private void Awake()
     {
@@ -33,23 +38,28 @@ public class PlayerPerkManager : MonoBehaviour
         {
             case ScriptablePerk.TypeOfPerks.QuickRevive:
                 perksAdquired++;
+                quickAdquired = true;
                 QuickReviveEffect();
                 break;
             case ScriptablePerk.TypeOfPerks.Juggernaut:
                 perksAdquired++;
+                juggerAdquired = true;
                 JuggernautEffect();
                 break;
             case ScriptablePerk.TypeOfPerks.SpeedCola:
                 speedColaActive = true;
                 perksAdquired++;
+                speedColaAdquired = true;
                 SpeedColaEffect();
                 break;
             case ScriptablePerk.TypeOfPerks.DoubleTap:
                 DoubleTapEffect();
+                doubleTapAdquired = true;
                 perksAdquired++;
                 break;
             case ScriptablePerk.TypeOfPerks.StamminUp:
                 StammingUpEffect();
+                stamminUpAdquired = true;
                 perksAdquired++;
                 break;
         }
@@ -97,8 +107,11 @@ public class PlayerPerkManager : MonoBehaviour
 
     private void SpeedColaEffect()
     {
-        gunsShoots = FindObjectOfType<GunShoot>();
-        gunsShoots.reloadTime /= 2;
+        PlayerGuns playerGuns = GetComponent<PlayerGuns>();
+        foreach (GunShoot gun in playerGuns.gunShoots)
+        {
+            gun.reloadTime /= 2;
+        }
     }
 
     private void RestoreSpeedColaEffect()
@@ -121,11 +134,15 @@ public class PlayerPerkManager : MonoBehaviour
 
     private void DoubleTapEffect()
     {
-        gunsShoots = FindObjectOfType<GunShoot>();
-        if (!gunsShoots.gunScriptable.singleShoot)
+        PlayerGuns playerGuns = GetComponent<PlayerGuns>();
+        foreach (GunShoot gun in playerGuns.gunShoots)
         {
-            gunsShoots.fireRate *= 1.5f;
+            if (!gun.gunScriptable.singleShoot)
+            {
+                gun.fireRate *= 1.5f;
+            }
         }
+
     }
 
     private void StammingUpEffect()

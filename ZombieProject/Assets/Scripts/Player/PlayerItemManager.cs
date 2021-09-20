@@ -5,20 +5,18 @@ using UnityEngine.UI;
 
 public class PlayerItemManager : MonoBehaviour
 {
-
-    public List<GunShoot> gunShoots;
-    public List<GrenadeThrower> grenades;
-
+    private PlayerGuns playerGuns;
     private Text itemNameText;
 
     private void Awake()
     {
         itemNameText = FindObjectOfType<PowerUpName>().GetComponent<Text>();
+        playerGuns = GetComponent<PlayerGuns>();
     }
 
     public void MaxAmmo()
     {
-        foreach (GunShoot gun in gunShoots)
+        foreach (GunShoot gun in playerGuns.gunShoots)
         {
             gun.currentChargerAmmo = gun.gunScriptable.maxBulletPerCharger;
             gun.currentBedroomAmmo = gun.gunScriptable.maxBulletsInBedroom;
@@ -29,7 +27,7 @@ public class PlayerItemManager : MonoBehaviour
             
         }
 
-        foreach (GrenadeThrower grenade in grenades)
+        foreach (GrenadeThrower grenade in playerGuns.grenades)
         {
             grenade._currentChargerAmmo = grenade.grenadeScriptable.maxBulletPerCharger;
             grenade._currentBedroomAmmo = grenade.grenadeScriptable.maxBulletsInBedroom;

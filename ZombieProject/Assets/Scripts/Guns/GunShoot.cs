@@ -22,7 +22,7 @@ public class GunShoot : MonoBehaviour
     [HideInInspector] public bool isRealoading;
     [HideInInspector] public int currentChargerAmmo;
     [HideInInspector] public int currentBedroomAmmo;
-    [HideInInspector] public float reloadTime;
+    public float reloadTime;
     [HideInInspector] public float fireRate;
 
     private float _nextTimeToFire;

@@ -68,9 +68,17 @@ public class EnemyIA : MonoBehaviour
     private IEnumerator Attack()
     {
         isAttacking = true;
-        agent.ResetPath();
+        if (CheckDistanceToStop())
+        {
+            agent.ResetPath();
+        }
         _enemyAnimations.AttackAnim();
         yield return new WaitForSeconds(1f);
         isAttacking = false;
+    }
+
+    private bool CheckDistanceToStop()
+    {
+        return Vector3.Distance(transform.position, _player.position) < zScriptable.distanceToStop;
     }
 }

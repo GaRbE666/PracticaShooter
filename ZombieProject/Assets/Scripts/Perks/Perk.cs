@@ -11,6 +11,7 @@ public class Perk : MonoBehaviour
     private bool _canBuy;
     private PlayerPerkManager _playerPerkManager;
     private PowerOn powerOn;
+    public bool perkAdquired;
 
     private void Awake()
     {
@@ -33,12 +34,17 @@ public class Perk : MonoBehaviour
             {
                 UpdatePerkText();
                 _perkText.enabled = true;
+            }else if (CheckIfPerkAdquired(scriptablePerk.perkType))
+            {
+                _perkText.enabled = false;
             }
             else
             {
                 _perkText.text = "Power is required";
                 _perkText.enabled = true;
             }
+
+
         }
     }
 
@@ -51,13 +57,9 @@ public class Perk : MonoBehaviour
                 _perkText.enabled = true;
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    PlayerScore playerScore = other.GetComponent<PlayerScore>();
-                    if (playerScore.score >= scriptablePerk.cost)
+                    if (!CheckIfPerkAdquired(scriptablePerk.perkType))
                     {
-                        _perkText.enabled = false;
-                        _canBuy = false;
-                        playerScore.QuitScore(scriptablePerk.cost);
-                        _playerPerkManager.SelectPerk(scriptablePerk.perkType, scriptablePerk.perkIcon);
+                        ConsumePerk(other);
                     }
                 }
             }
@@ -69,6 +71,37 @@ public class Perk : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             _perkText.enabled = false;
+        }
+    }
+
+    private void ConsumePerk(Collider other)
+    {
+        PlayerScore playerScore = other.GetComponent<PlayerScore>();
+        if (playerScore.score >= scriptablePerk.cost)
+        {
+            _perkText.enabled = false;
+            _canBuy = false;
+            playerScore.QuitScore(scriptablePerk.cost);
+            _playerPerkManager.SelectPerk(scriptablePerk.perkType, scriptablePerk.perkIcon);
+        }
+    }
+
+    private bool CheckIfPerkAdquired(ScriptablePerk.TypeOfPerks perkType)
+    {
+        switch (perkType)
+        {
+            case ScriptablePerk.TypeOfPerks.QuickRevive:
+                return _playerPerkManager.quickAdquired;
+            case ScriptablePerk.TypeOfPerks.Juggernaut:
+                return _playerPerkManager.juggerAdquired;
+            case ScriptablePerk.TypeOfPerks.SpeedCola:
+                return _playerPerkManager.speedColaAdquired;
+            case ScriptablePerk.TypeOfPerks.DoubleTap:
+                return _playerPerkManager.doubleTapAdquired;
+            case ScriptablePerk.TypeOfPerks.StamminUp:
+                return _playerPerkManager.stamminUpAdquired;
+            default:
+                return false;
         }
     }
 

@@ -49,14 +49,14 @@ public class BuyGun : MonoBehaviour
                     {
                         newGunPos = new Vector3(other.transform.position.x, other.transform.position.y + .5f, other.transform.position.z);
                         GameObject gunClone = Instantiate(gunPrefab.gameObject, newGunPos, gunPrefab.gameObject.transform.rotation);
-                        PlayerItemManager pim = other.GetComponent<PlayerItemManager>();
+                        PlayerGuns pim = other.GetComponent<PlayerGuns>();
                         pim.gunShoots.Add(gunClone.GetComponent<GunShoot>());
                         gunClone.transform.SetParent(gunSpawn);
                     }
                     else
                     {
                         GameObject gunClone = Instantiate(grenadePrefab.gameObject, other.transform.position, Quaternion.identity);
-                        PlayerItemManager pim = other.GetComponent<PlayerItemManager>();
+                        PlayerGuns pim = other.GetComponent<PlayerGuns>();
                         pim.grenades.Add(gunClone.GetComponent<GrenadeThrower>());
                         gunClone.transform.SetParent(gunSpawn);
                     }
