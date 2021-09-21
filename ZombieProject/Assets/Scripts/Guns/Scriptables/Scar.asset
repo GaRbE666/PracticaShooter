@@ -16,7 +16,7 @@ MonoBehaviour:
   price: 2700
   maxBulletsInBedroom: 330
   maxBulletPerCharger: 30
-  reloadingtime: 2.5
+  reloadingtime: 3
   fireRate: 10
   damage: 60
   range: 100

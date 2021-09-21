@@ -15,6 +15,8 @@ public class Item : MonoBehaviour
     private Text powerUpTimerEffect;
     private float timeToDestroy;
     private PlayerItemManager playerItemManager;
+    public bool instakillActived;
+    public bool doublePointsActived;
 
     private void Awake()
     {
@@ -37,7 +39,7 @@ public class Item : MonoBehaviour
             UpdatePowerUpText();
             if (timeToDestroy <= 0)
             {
-                Destroy(gameObject);
+                Destroy(gameObject, 1f);
             }
 
         }
@@ -83,9 +85,13 @@ public class Item : MonoBehaviour
                 MaxAmmo(other);
                 break;
             case ItemScriptable.itemEnumType.InstaKill:
+                instakillActived = true;
+                transform.name = "InstakillActived";
                 StartCoroutine(InstaKill());
                 break;
             case ItemScriptable.itemEnumType.DoublePoints:
+                doublePointsActived = true;
+                transform.name = "DoublePointsActived";
                 StartCoroutine(DoublePoints());
                 break;
             case ItemScriptable.itemEnumType.Cash:
@@ -124,46 +130,34 @@ public class Item : MonoBehaviour
 
     private IEnumerator InstaKill()
     {
-        EnemyHealth[] enemies = FindObjectsOfType<EnemyHealth>();
-        foreach (EnemyHealth enemy in enemies)
-        {
-            enemy.GetComponent<EnemyHealth>().currentHealth = 1;
-        }
-
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
-
-        foreach (EnemyHealth enemy in enemies)
+        instakillActived = false;
+        EnemyHealth[] enemies2 = FindObjectsOfType<EnemyHealth>();
+        foreach (EnemyHealth enemy in enemies2)
         {
-            Debug.Log("Quito el instakill");
-            enemy.GetComponent<EnemyHealth>().currentHealth = enemy.GetComponent<EnemyHealth>().zScriptable.maxHealth;
+            if (!enemy.GetComponent<EnemyHealth>().die)
+            {
+                enemy.GetComponent<EnemyHealth>().currentHealth = enemy.GetComponent<EnemyHealth>().zScriptable.maxHealth;
+            }
             Debug.Log(enemy.GetComponent<EnemyHealth>().currentHealth);
         }
-
-        Destroy(gameObject);
     }
 
     private IEnumerator DoublePoints()
     {
-        EnemyIA[] enemies = FindObjectsOfType<EnemyIA>();
-        foreach (EnemyIA enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                enemy.GetComponent<EnemyIA>().pointsReward *= 2;
-            }
-        }
-
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
 
-        foreach (EnemyIA enemy in enemies)
+        EnemyIA[] enemies2 = FindObjectsOfType<EnemyIA>();
+        doublePointsActived = false;
+        Debug.Log("Descativo los dobles puntos");
+        foreach (EnemyIA enemy in enemies2)
         {
-            if (enemy != null)
+            if (enemy != null && !enemy.GetComponent<EnemyHealth>().die)
             {
                 enemy.GetComponent<EnemyIA>().pointsReward /= 2;
+                Debug.Log(enemy.GetComponent<EnemyIA>().pointsReward);
             }
         }
-
-        Destroy(gameObject);
     }
 
     private void Cash(Collider other)

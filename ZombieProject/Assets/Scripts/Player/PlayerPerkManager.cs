@@ -100,10 +100,10 @@ public class PlayerPerkManager : MonoBehaviour
         playerHealth.timeToRecoverHP = 4;
     }
 
-    private void RestoreQuickReviveEffect()
-    {
-        playerHealth.timeToRecoverHP = 6;
-    }
+    //private void RestoreQuickReviveEffect()
+    //{
+    //    playerHealth.timeToRecoverHP = 6;
+    //}
 
     private void SpeedColaEffect()
     {
@@ -114,11 +114,11 @@ public class PlayerPerkManager : MonoBehaviour
         }
     }
 
-    private void RestoreSpeedColaEffect()
-    {
-        gunsShoots = FindObjectOfType<GunShoot>();
-        gunsShoots.reloadTime *= 2;
-    }
+    //private void RestoreSpeedColaEffect()
+    //{
+    //    gunsShoots = FindObjectOfType<GunShoot>();
+    //    gunsShoots.reloadTime *= 2;
+    //}
 
     private void JuggernautEffect()
     {
@@ -126,11 +126,11 @@ public class PlayerPerkManager : MonoBehaviour
         playerHealth.currentHealth = playerHealth.maxHealth;
     }
 
-    private void RestoreJuggernautEffect()
-    {
-        playerHealth.maxHealth = 3;
-        playerHealth.currentHealth = playerHealth.maxHealth;
-    }
+    //private void RestoreJuggernautEffect()
+    //{
+    //    playerHealth.maxHealth = 3;
+    //    playerHealth.currentHealth = playerHealth.maxHealth;
+    //}
 
     private void DoubleTapEffect()
     {
@@ -158,8 +158,8 @@ public class PlayerPerkManager : MonoBehaviour
             perksImages[i].enabled = false;
         }
         speedColaActive = false;
-        RestoreQuickReviveEffect();
-        RestoreSpeedColaEffect();
-        RestoreJuggernautEffect();
+        //RestoreQuickReviveEffect();
+        //RestoreSpeedColaEffect();
+        //RestoreJuggernautEffect();
     }
 }

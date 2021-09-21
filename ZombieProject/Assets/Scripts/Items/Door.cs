@@ -63,7 +63,7 @@ public class Door : MonoBehaviour
     {
         if (electricityRequired)
         {
-            doorText.text = "Electricity is required to open the door";
+            doorText.text = "Power is required";
         }
         else
         {
