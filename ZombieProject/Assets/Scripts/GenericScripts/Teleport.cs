@@ -7,11 +7,16 @@ public class Teleport : MonoBehaviour
 {
     [SerializeField] private Text teleportText;
     [SerializeField] private Transform teleportDestino;
+    [SerializeField] private Transform spawnMainRoom;
+    [SerializeField] private float timeToReactiveTeleport;
+    [SerializeField] private float timeToExitPAPRoom;
     private GameManager _gameManager;
     private TeleportSpawn _teleportSpawn;
     private PlayerMovement _playerMovement;
+    private PAPRoom _papRoom;
     public bool teleportActived;
     public bool link1;
+    public bool teleportIsRecovering;
 
     private void Awake()
     {
@@ -25,25 +30,25 @@ public class Teleport : MonoBehaviour
         teleportText.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            if (CheckPowerIsOn() && !_teleportSpawn.link2)
-            {
-                SetTeleportText("Press F to activate link");
-            }
-            if (teleportActived)
-            {
-                SetTeleportText("Press F to Teleport");
-            }
-            if(!CheckPowerIsOn())
-            {
-                SetTeleportText("Power is required");
-            }
-            ActiveText();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        if (CheckPowerIsOn() && !_teleportSpawn.link2)
+    //        {
+    //            SetTeleportText("Press F to activate link");
+    //        }
+    //        if (teleportActived)
+    //        {
+    //            SetTeleportText("Press F to Teleport");
+    //        }
+    //        if(!CheckPowerIsOn())
+    //        {
+    //            SetTeleportText("Power is required");
+    //        }
+    //        ActiveText();
+    //    }
+    //}
 
     private void OnTriggerStay(Collider other)
     {
@@ -51,32 +56,8 @@ public class Teleport : MonoBehaviour
         {
             if (CheckPowerIsOn())
             {
-                if (!link1)
-                {
-                    SetTeleportText("Press F to activate link");
-                }
-                if (teleportActived)
-                {
-                    SetTeleportText("Press F to Teleport");
-                }
-                if (link1 && !_teleportSpawn.link2) 
-                {
-                    SetTeleportText("Link is required");
-                    
-                }
-                ActiveText();
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (!_teleportSpawn.link2)
-                    {
-                        LinkUp();
-                    }
-                    else
-                    {
-                        Debug.Log("Hago teleport");
-                        TeleportToPAP();
-                    } 
-                }
+                ChooseWhatTextShowOnStay();
+                PlayerPressKey();
             }
             else
             {
@@ -92,6 +73,51 @@ public class Teleport : MonoBehaviour
         {
             DesactiveText();
         }
+    }
+
+    private void PlayerPressKey()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (!_teleportSpawn.link2)
+            {
+                LinkUp();
+            }
+            else
+            {
+                TeleportToPAP();
+            }
+        }
+    }
+
+    private void ChooseWhatTextShowOnStay()
+    {
+        if (!teleportIsRecovering)
+        {
+            if (!link1)
+            {
+                SetTeleportText("Press F to activate link");
+            }
+            else if (link1 && !_teleportSpawn.link2)
+            {
+                SetTeleportText("Link is required");
+            }
+            else if (teleportActived)
+            {
+                SetTeleportText("Press F to Teleport");
+            }
+        }
+        else
+        {
+            SetTeleportText("The teleport is recovering");
+        }
+        ActiveText();
+    }
+
+    public IEnumerator TimeToReActiveTeleport()
+    {
+        yield return new WaitForSeconds(timeToReactiveTeleport);
+        teleportIsRecovering = false;
     }
 
     private void ActiveText()
@@ -112,7 +138,6 @@ public class Teleport : MonoBehaviour
     private void LinkUp()
     {
         link1 = true;
-        //teleportActived = true;
     }
 
     private void SetTeleportText(string text)
@@ -122,8 +147,41 @@ public class Teleport : MonoBehaviour
 
     private void TeleportToPAP()
     {
+        TeleportPlayerToPAP();
+        StartCoroutine(CoolDownExitPAPRoom());
+    }
+
+    private IEnumerator CoolDownExitPAPRoom()
+    {
+        yield return new WaitForSeconds(timeToExitPAPRoom);
+        ResetTwoTeleportStations();
+        TeleportPlayerToMainRoom();
+    }
+
+
+    private void ResetTwoTeleportStations()
+    {
+        teleportActived = false;
+        link1 = false;
+        _teleportSpawn.link2 = false;
+        teleportIsRecovering = true;
+        _teleportSpawn.PutCableMaterialOff();
+        StartCoroutine(TimeToReActiveTeleport());
+    }
+
+    private void TeleportPlayerToMainRoom()
+    {
+        _playerMovement.GetComponent<CharacterController>().enabled = false;
+        _playerMovement.transform.position = spawnMainRoom.position;
+        _playerMovement.transform.rotation = spawnMainRoom.rotation;
+        _playerMovement.GetComponent<CharacterController>().enabled = true;
+    }
+
+    private void TeleportPlayerToPAP()
+    {
         _playerMovement.GetComponent<CharacterController>().enabled = false;
         _playerMovement.transform.position = teleportDestino.position;
+        _playerMovement.transform.rotation = teleportDestino.rotation;
         _playerMovement.GetComponent<CharacterController>().enabled = true;
     }
 }

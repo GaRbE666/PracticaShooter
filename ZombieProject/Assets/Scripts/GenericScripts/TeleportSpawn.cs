@@ -7,7 +7,8 @@ public class TeleportSpawn : MonoBehaviour
 {
     [SerializeField] private Text teleportSpawnText;
     [SerializeField] private GameObject cableLink;
-    [SerializeField] private Material cableLinkMaterial;
+    [SerializeField] private Material cableLinkMaterialOn;
+    [SerializeField] private Material cableLinkMaterialOff;
     public bool link2;
     private Teleport _teleport;
 
@@ -37,19 +38,7 @@ public class TeleportSpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (_teleport.link1 && !link2)
-            {
-                SetTeleportSpawnText("Press F to link");
-                ActiveText();
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    DesactiveText();
-                    if (_teleport.link1)
-                    {
-                        LinkUp();
-                    }
-                }
-            }
+            ChooseIfShowText();
         }
     }
 
@@ -61,9 +50,31 @@ public class TeleportSpawn : MonoBehaviour
         }
     }
 
+    private void ChooseIfShowText()
+    {
+        if (_teleport.link1 && !link2)
+        {
+            SetTeleportSpawnText("Press F to link");
+            ActiveText();
+            PlayerPressKey();
+        }
+    }
+
     private void ActiveText()
     {
         teleportSpawnText.enabled = true;
+    }
+
+    private void PlayerPressKey()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            DesactiveText();
+            if (_teleport.link1)
+            {
+                LinkUp();
+            }
+        }
     }
 
     private void DesactiveText()
@@ -80,6 +91,16 @@ public class TeleportSpawn : MonoBehaviour
     {
         _teleport.teleportActived = true;
         link2 = true;
-        cableLink.GetComponent<MeshRenderer>().material = cableLinkMaterial;
+        PutCableMaterialOn();
+    }
+
+    public void PutCableMaterialOn()
+    {
+        cableLink.GetComponent<MeshRenderer>().material = cableLinkMaterialOn;
+    }
+
+    public void PutCableMaterialOff()
+    {
+        cableLink.GetComponent<MeshRenderer>().material = cableLinkMaterialOff;
     }
 }
