@@ -7,12 +7,15 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Text roundText;
     public int currentRound;
+    public bool powerOn;
+    private PowerOn _powerOnMethod;
     private SpawnManager _spawnManager;
     private bool _roundTransition;
 
     private void Awake()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _powerOnMethod = FindObjectOfType<PowerOn>();
     }
 
     private void Start()
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     {
         currentRound = 1;
         _roundTransition = true;
+        _powerOnMethod.PowerOnReleased += TurnOnThePower;
         UpdateRoundText();
     }
     private void Update()
@@ -54,6 +58,11 @@ public class GameManager : MonoBehaviour
     private void UpdateRoundText()
     {
         roundText.text = currentRound.ToString();
+    }
+
+    private void TurnOnThePower()
+    {
+        powerOn = true;
     }
 
 }

@@ -15,6 +15,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float maxTimeToSpawn;
     [SerializeField] private float minTimeToSpawn;
 
+    public int visitedRooms;
     private bool _canSpawn;
     private bool _canSpawnMore;
     private float _timeRandomToSpawn;

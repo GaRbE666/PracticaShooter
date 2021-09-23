@@ -155,7 +155,7 @@ public class Item : MonoBehaviour
             if (enemy != null && !enemy.GetComponent<EnemyHealth>().die)
             {
                 enemy.GetComponent<EnemyIA>().pointsReward /= 2;
-                Debug.Log(enemy.GetComponent<EnemyIA>().pointsReward);
+                enemy.GetComponent<EnemyIA>().pointsForHitReward /= 2;
             }
         }
     }

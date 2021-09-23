@@ -37,6 +37,11 @@ public class EnemyHealth : MonoBehaviour
         {
             Die();
         }
+        else
+        {
+            AddSomeScoreToPlayer();
+        }
+        
     }
 
     public void Die()
@@ -47,6 +52,11 @@ public class EnemyHealth : MonoBehaviour
         DropRandomItem();
         AddScoreToPlayer();
         Destroy(gameObject, 30f);
+    }
+
+    private void AddSomeScoreToPlayer()
+    {
+        _playerScore.AddScore(_enemyIA.pointsForHitReward);
     }
 
     private void AddScoreToPlayer()

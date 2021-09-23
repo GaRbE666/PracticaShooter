@@ -9,6 +9,7 @@ public class EnemyIA : MonoBehaviour
     [SerializeField] private EnemyHealth enemyHealth;
     public EnemyScriptable zScriptable;
     public int pointsReward;
+    public int pointsForHitReward;
     public bool isAttacking;
 
     private EnemyAnimations _enemyAnimations;
@@ -25,6 +26,7 @@ public class EnemyIA : MonoBehaviour
     private void Start()
     {
         pointsReward = zScriptable.pointReward;
+        pointsForHitReward = zScriptable.pointsForHit;
         ChangeSpeedEnemy();
     }
 

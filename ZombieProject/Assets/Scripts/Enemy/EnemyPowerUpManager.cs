@@ -44,13 +44,14 @@ public class EnemyPowerUpManager : MonoBehaviour
     {
         if (_itemDP != null && _itemDP.doublePointsActived && !_enemyHealth.die)
         {
-            if (_enemyIA.pointsReward / 2 == _enemyIA.zScriptable.pointReward)
+            if (_enemyIA.pointsReward / 2 == _enemyIA.zScriptable.pointReward && _enemyIA.pointsForHitReward / 2 == _enemyIA.zScriptable.pointsForHit)
             {
                 return;
             }
             else
             {
                 _enemyIA.pointsReward *= 2;
+                _enemyIA.pointsForHitReward *= 2;
             }
         }
     }
