@@ -59,7 +59,7 @@ public class Teleport : MonoBehaviour
                 {
                     SetTeleportText("Press F to Teleport");
                 }
-                else
+                if (link1 && !_teleportSpawn.link2) 
                 {
                     SetTeleportText("Link is required");
                     
@@ -73,6 +73,7 @@ public class Teleport : MonoBehaviour
                     }
                     else
                     {
+                        Debug.Log("Hago teleport");
                         TeleportToPAP();
                     } 
                 }
@@ -121,6 +122,8 @@ public class Teleport : MonoBehaviour
 
     private void TeleportToPAP()
     {
-        _playerMovement.gameObject.transform.root.transform.position = teleportDestino.position;
+        _playerMovement.GetComponent<CharacterController>().enabled = false;
+        _playerMovement.transform.position = teleportDestino.position;
+        _playerMovement.GetComponent<CharacterController>().enabled = true;
     }
 }

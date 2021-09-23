@@ -27,7 +27,6 @@ public class TeleportSpawn : MonoBehaviour
         {
             if (_teleport.link1 && !link2)
             {
-                Debug.Log("Activo el texto");
                 SetTeleportSpawnText("Press F to link");
                 ActiveText();
             }
