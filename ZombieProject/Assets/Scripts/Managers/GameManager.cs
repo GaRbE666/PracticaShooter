@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Text roundText;
+    [SerializeField] private bool noZombies;
     public int currentRound;
     public bool powerOn;
     private PowerOn _powerOnMethod;
@@ -32,10 +33,14 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (_spawnManager._endRound && _roundTransition)
+        if (!noZombies)
         {
-            StartCoroutine(RoundCompleted());
+            if (_spawnManager._endRound && _roundTransition)
+            {
+                StartCoroutine(RoundCompleted());
+            }
         }
+
     }
 
     public IEnumerator RoundCompleted()

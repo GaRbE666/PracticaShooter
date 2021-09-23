@@ -27,6 +27,7 @@ public class TeleportSpawn : MonoBehaviour
         {
             if (_teleport.link1 && !link2)
             {
+                Debug.Log("Activo el texto");
                 SetTeleportSpawnText("Press F to link");
                 ActiveText();
             }
@@ -37,12 +38,13 @@ public class TeleportSpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (_teleport.link1)
+            if (_teleport.link1 && !link2)
             {
                 SetTeleportSpawnText("Press F to link");
                 ActiveText();
                 if (Input.GetKeyDown(KeyCode.F))
                 {
+                    DesactiveText();
                     if (_teleport.link1)
                     {
                         LinkUp();
@@ -77,6 +79,7 @@ public class TeleportSpawn : MonoBehaviour
 
     private void LinkUp()
     {
+        _teleport.teleportActived = true;
         link2 = true;
         cableLink.GetComponent<MeshRenderer>().material = cableLinkMaterial;
     }

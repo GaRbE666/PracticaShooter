@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class Teleport : MonoBehaviour
 {
     [SerializeField] private Text teleportText;
+    [SerializeField] private Transform teleportDestino;
     private GameManager _gameManager;
     private TeleportSpawn _teleportSpawn;
+    private PlayerMovement _playerMovement;
     public bool teleportActived;
     public bool link1;
 
@@ -15,6 +17,7 @@ public class Teleport : MonoBehaviour
     {
         _gameManager = FindObjectOfType<GameManager>();
         _teleportSpawn = FindObjectOfType<TeleportSpawn>();
+        _playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
     private void Start()
@@ -29,13 +32,12 @@ public class Teleport : MonoBehaviour
             if (CheckPowerIsOn() && !_teleportSpawn.link2)
             {
                 SetTeleportText("Press F to activate link");
-                
             }
-            if (_teleportSpawn.link2)
+            if (teleportActived)
             {
                 SetTeleportText("Press F to Teleport");
             }
-            else
+            if(!CheckPowerIsOn())
             {
                 SetTeleportText("Power is required");
             }
@@ -52,14 +54,17 @@ public class Teleport : MonoBehaviour
                 if (!link1)
                 {
                     SetTeleportText("Press F to activate link");
-                    ActiveText();
+                }
+                if (teleportActived)
+                {
+                    SetTeleportText("Press F to Teleport");
                 }
                 else
                 {
                     SetTeleportText("Link is required");
-                    ActiveText();
+                    
                 }
-
+                ActiveText();
                 if (Input.GetKeyDown(KeyCode.F))
                 {
                     if (!_teleportSpawn.link2)
@@ -116,6 +121,6 @@ public class Teleport : MonoBehaviour
 
     private void TeleportToPAP()
     {
-
+        _playerMovement.gameObject.transform.root.transform.position = teleportDestino.position;
     }
 }
