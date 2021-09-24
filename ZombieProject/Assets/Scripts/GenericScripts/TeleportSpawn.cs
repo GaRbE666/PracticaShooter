@@ -11,10 +11,12 @@ public class TeleportSpawn : MonoBehaviour
     [SerializeField] private Material cableLinkMaterialOff;
     public bool link2;
     private Teleport _teleport;
+    private GameManager _gameManager;
 
     private void Awake()
     {
         _teleport = FindObjectOfType<Teleport>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Start()
@@ -26,11 +28,22 @@ public class TeleportSpawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (_teleport.link1 && !link2)
+            if (_gameManager.powerOn)
             {
-                SetTeleportSpawnText("Press F to link");
-                ActiveText();
+                if (_teleport.link1 && !link2)
+                {
+                    SetTeleportSpawnText("Presiona F para iniciar la conexión con la plataforma");
+                }
+                else
+                {
+                    SetTeleportSpawnText("Esperando enlace");
+                }
             }
+            else
+            {
+                SetTeleportSpawnText("Antes debes activar la corriente");
+            }
+            ActiveText();
         }
     }
 
@@ -54,7 +67,7 @@ public class TeleportSpawn : MonoBehaviour
     {
         if (_teleport.link1 && !link2)
         {
-            SetTeleportSpawnText("Press F to link");
+            SetTeleportSpawnText("Presiona F para enlazar la plataforma con el nucleo");
             ActiveText();
             PlayerPressKey();
         }

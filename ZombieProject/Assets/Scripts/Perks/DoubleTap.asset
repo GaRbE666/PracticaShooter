@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064c2b52adaeb004d85a7de26ffe3789, type: 3}
   m_Name: DoubleTap
   m_EditorClassIdentifier: 
-  name: DoubleTap
-  description: Increase the fire rate at approximately 50%.
+  name: Doble Tiro
+  description: Aumenta el fire rate en aproximadamente un 50%.
   cost: 2000
   perkIcon: {fileID: 21300000, guid: 34a685d3c403a174c87daec7ff2dc73b, type: 3}
   perkType: 3

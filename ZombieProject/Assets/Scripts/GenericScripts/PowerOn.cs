@@ -9,30 +9,40 @@ public class PowerOn : MonoBehaviour
     [SerializeField] private Animation _animation;
     public delegate void Power();
     public event Power PowerOnReleased;
-    
+
+    private GameManager _gameManager;
+
+    private void Awake()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+    }
 
     private void Start()
     {
         powerText.gameObject.SetActive(false);
+        SetPowerText("Mantén F para encender");
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            powerText.gameObject.SetActive(true);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        ActiveText();
+    //    }
+    //}
 
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            powerText.gameObject.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (!_gameManager.powerOn)
             {
-                PowerOnReleased?.Invoke();
-                _animation.Play();
+                ActiveText();
+                PlayerPressKey();
+            }
+            else
+            {
+                DesactiveText();
             }
         }
     }
@@ -41,7 +51,31 @@ public class PowerOn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            powerText.gameObject.SetActive(false);
+            DesactiveText();
         }
+    }
+
+    private void PlayerPressKey()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            PowerOnReleased?.Invoke();
+            _animation.Play();
+        }
+    }
+
+    private void SetPowerText(string text)
+    {
+        powerText.text = text;
+    }
+
+    private void ActiveText()
+    {
+        powerText.gameObject.SetActive(true);
+    }
+
+    private void DesactiveText()
+    {
+        powerText.gameObject.SetActive(false);
     }
 }

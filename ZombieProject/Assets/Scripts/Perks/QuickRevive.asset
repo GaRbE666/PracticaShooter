@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QuickRevive
   m_EditorClassIdentifier: 
   name: QuickRevive
-  description: Reduces the maximum health recovery time
+  description: "Reduce el tiempo de recuperaci\xF3n de vida m\xE1xima"
   cost: 1500
   perkIcon: {fileID: 21300000, guid: e56d8e4c331f9bf46960c18404151907, type: 3}
   perkType: 0

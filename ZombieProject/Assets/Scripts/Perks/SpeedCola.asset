@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064c2b52adaeb004d85a7de26ffe3789, type: 3}
   m_Name: SpeedCola
   m_EditorClassIdentifier: 
-  name: Speed Cola
-  description: Reduces the time of recharge in half
+  name: "Cola R\xE1pida"
+  description: Reduce el tiempo de recarga a la mitad
   cost: 3000
   perkIcon: {fileID: 21300000, guid: b616333583c95c046bb49044587265e8, type: 3}
   perkType: 2

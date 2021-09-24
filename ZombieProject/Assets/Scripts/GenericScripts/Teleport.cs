@@ -61,7 +61,7 @@ public class Teleport : MonoBehaviour
             }
             else
             {
-                SetTeleportText("Power is required");
+                SetTeleportText("Antes debes activar la corriente");
                 ActiveText();
             }
         }
@@ -96,20 +96,20 @@ public class Teleport : MonoBehaviour
         {
             if (!link1)
             {
-                SetTeleportText("Press F to activate link");
+                SetTeleportText("Mantén F para iniciar la conexion con la plataforma");
             }
             else if (link1 && !_teleportSpawn.link2)
             {
-                SetTeleportText("Link is required");
+                SetTeleportText("Enlace inactivo");
             }
             else if (teleportActived)
             {
-                SetTeleportText("Press F to Teleport");
+                SetTeleportText("Mantén F para usar la plataforma de teletransporte");
             }
         }
         else
         {
-            SetTeleportText("The teleport is recovering");
+            SetTeleportText("La plataforma se está recuperando");
         }
         ActiveText();
     }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee53de0adedcdcc40a422dfcc1690fa0, type: 3}
   m_Name: MaxAmmo
   m_EditorClassIdentifier: 
-  itemName: MaxAmmo
+  itemName: "Munici\xF3n M\xE1xima"
   timeToDestroy: 1
   itemType: 0

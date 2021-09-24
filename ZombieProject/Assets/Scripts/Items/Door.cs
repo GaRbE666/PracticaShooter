@@ -63,11 +63,11 @@ public class Door : MonoBehaviour
     {
         if (electricityRequired)
         {
-            doorText.text = "Power is required";
+            doorText.text = "Antes debes activar la corriente";
         }
         else
         {
-            doorText.text = "Press F to open door (" + pointsRequired + ")";
+            doorText.text = "Mantén F para abrir la puerta (coste: " + pointsRequired + ")";
         }
         
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StamminUp
   m_EditorClassIdentifier: 
   name: Stammin Up
-  description: Increase speed when running 50%
+  description: Aumenta la velocidad de correr un 50%
   cost: 2500
   perkIcon: {fileID: 21300000, guid: 179fbe4308f894d4591a17e38b18d8e4, type: 3}
   perkType: 4

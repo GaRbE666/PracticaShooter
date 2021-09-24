@@ -7,7 +7,7 @@ public class Perk : MonoBehaviour
 {
     [SerializeField] private ScriptablePerk scriptablePerk;
 
-    private Text _perkText;
+    [SerializeField] private Text _perkText;
     private bool _canBuy;
     private PlayerPerkManager _playerPerkManager;
     private PowerOn powerOn;
@@ -16,7 +16,7 @@ public class Perk : MonoBehaviour
     private void Awake()
     {
         _playerPerkManager = FindObjectOfType<PlayerPerkManager>();
-        _perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
+        //_perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
         powerOn = FindObjectOfType<PowerOn>();
     }
 
@@ -40,7 +40,7 @@ public class Perk : MonoBehaviour
             }
             else
             {
-                _perkText.text = "Power is required";
+                _perkText.text = "Antes debes activar la corriente";
                 _perkText.enabled = true;
             }
 
@@ -112,6 +112,6 @@ public class Perk : MonoBehaviour
 
     private void UpdatePerkText()
     {
-        _perkText.text = "Press F to buy " + scriptablePerk.name + " (" + scriptablePerk.cost + ")" + "\n[" + scriptablePerk.description + "]";
+        _perkText.text = "Mantén F para comprar " + scriptablePerk.name + " (" + scriptablePerk.cost + ")" + "\n[" + scriptablePerk.description + "]";
     }
 }

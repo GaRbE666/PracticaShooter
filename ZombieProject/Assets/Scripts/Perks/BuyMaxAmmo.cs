@@ -58,6 +58,6 @@ public class BuyMaxAmmo : MonoBehaviour
 
     private void UpdateText()
     {
-        perkText.text = "Press F to Max Ammo " + cost.ToString(); ;
+        perkText.text = "Mantén F para obtener munición máxima " + "(coste: " + cost.ToString() + ")";
     }
 }

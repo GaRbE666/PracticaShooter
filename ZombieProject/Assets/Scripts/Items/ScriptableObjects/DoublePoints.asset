@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee53de0adedcdcc40a422dfcc1690fa0, type: 3}
   m_Name: DoublePoints
   m_EditorClassIdentifier: 
-  itemName: DoublePoints
+  itemName: Puntos Dobles
   timeToDestroy: 20
   itemType: 2
