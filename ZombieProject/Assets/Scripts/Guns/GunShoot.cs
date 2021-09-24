@@ -10,6 +10,7 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private GameObject muzzleParticles;
     [SerializeField] private Transform muzzlePosition;
     [SerializeField] private GameObject impactEffect;
+    [SerializeField] private GameObject headExplodeEffect;
     [Header("Texts References")]
     [SerializeField] private Text gunNameText;
     [SerializeField] private Text noAmmoText;
@@ -160,16 +161,37 @@ public class GunShoot : MonoBehaviour
         {
             if (hit.collider.gameObject.layer == 9)
             {
-                EnemyHealth enemy = hit.collider.gameObject.GetComponentInParent<EnemyHealth>();
-                if (enemy != null)
-                {
-                    enemy.TakeDamage(gunScriptable.damage);
-                }
-                GameObject impactClone = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-                impactClone.transform.SetParent(hit.transform);
+                CalculateZombieDamage(hit);
             }
         }
         Debug.DrawRay(_cam.transform.position, _cam.transform.forward, Color.green, gunScriptable.range);
+    }
+
+    private void CalculateZombieDamage(RaycastHit hit)
+    {
+        EnemyHealth enemy = hit.collider.gameObject.GetComponentInParent<EnemyHealth>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(gunScriptable.damage);
+        }
+        SelectWhatParticleShow(hit, enemy);
+
+    }
+
+    private void SelectWhatParticleShow(RaycastHit hit, EnemyHealth enemy)
+    {
+        if (hit.collider.gameObject.name.Equals("HeadCollider") && enemy.currentHealth <= 0)
+        {
+            GameObject impactHeadClone = Instantiate(headExplodeEffect, hit.collider.gameObject.transform.position, headExplodeEffect.transform.rotation);
+            impactHeadClone.transform.SetParent(hit.transform);
+            GameObject.Find("Z_Head").SetActive(false);
+            hit.collider.enabled = false;
+        }
+        else
+        {
+            GameObject impactClone = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            impactClone.transform.SetParent(hit.transform);
+        }
     }
 
     private void SpendAmmo()

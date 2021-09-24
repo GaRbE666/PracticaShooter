@@ -35,7 +35,7 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
         else
         {
@@ -44,8 +44,9 @@ public class EnemyHealth : MonoBehaviour
         
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
+        yield return new WaitForSeconds(1f);
         die = true;
         _spawnManager.currentZombiesInScene--;
         DisableAllColliders();
