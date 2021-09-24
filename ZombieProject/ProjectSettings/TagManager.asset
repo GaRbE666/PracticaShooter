@@ -9,6 +9,7 @@ TagManager:
   - ItemText
   - PerkText
   - PerksImageParent
+  - Spawn
   layers:
   - Default
   - TransparentFX

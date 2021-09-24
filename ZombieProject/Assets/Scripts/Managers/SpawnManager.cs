@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject[] spawns;
+    public List<GameObject> spawns;
     [SerializeField] private GameObject zombie;
     [SerializeField] private Transform ZombieContainer;
 
@@ -14,14 +14,22 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int maxZombiesInScene;
     [SerializeField] private float maxTimeToSpawn;
     [SerializeField] private float minTimeToSpawn;
+    [SerializeField] private float maxDistanceToPlayerToCanSpawn;
 
     public int visitedRooms;
+    public int currentZombiesInScene;
+    public int currentZombiesPerRound;
     private bool _canSpawn;
     private bool _canSpawnMore;
     private float _timeRandomToSpawn;
     [HideInInspector] public bool _endRound;
-    public int currentZombiesInScene;
-    public int currentZombiesPerRound;
+    private PlayerMovement _playerMovement;
+    public List<GameObject> spawnsActived;
+
+    private void Awake()
+    {
+        _playerMovement = FindObjectOfType<PlayerMovement>();
+    }
 
     private void Start()
     {
@@ -35,7 +43,7 @@ public class SpawnManager : MonoBehaviour
         CheckMaxZombiesPerRound();
         if (_canSpawn && _canSpawnMore && !_endRound)
         {
-            StartCoroutine(SpawnZombie());
+            StartCoroutine(SpawnZombies());
         }
     }
 
@@ -63,7 +71,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    private IEnumerator SpawnZombie()
+    private IEnumerator SpawnZombies()
     {
         _canSpawn = false;
         _timeRandomToSpawn = Random.Range(minTimeToSpawn, maxTimeToSpawn + 1);
@@ -75,7 +83,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnOneZombie()
     {
         int spawnRandom = SelectOneSpawn();
-        GameObject zombieClone = Instantiate(zombie, spawns[spawnRandom].transform.position, spawns[spawnRandom].transform.rotation);
+        GameObject zombieClone = Instantiate(zombie, spawnsActived[spawnRandom].transform.position, spawnsActived[spawnRandom].transform.rotation);
         zombieClone.transform.SetParent(ZombieContainer);
         currentZombiesInScene++;
         currentZombiesPerRound++;
@@ -83,14 +91,54 @@ public class SpawnManager : MonoBehaviour
 
     private int SelectOneSpawn()
     {
-        return Random.Range(0, spawns.Length);
-
+        SelectWhatSpawnCanSpawnZombies();
+        return Random.Range(0, spawnsActived.Count);
     }
 
     public void ResetAllCurrentZombies()
     {
         currentZombiesInScene = 0;
         currentZombiesPerRound = 0;
+    }
+
+    private void SelectWhatSpawnCanSpawnZombies()
+    {
+        spawnsActived.Clear();
+        foreach (GameObject spawn in spawns)
+        {
+            if (CheckDistanceToPlayer(spawn))
+            {
+                spawnsActived.Add(spawn);
+            }
+        }
+    }
+
+    private bool CheckDistanceToPlayer(GameObject spawn)
+    {
+        if (Vector3.Distance(spawn.transform.position, _playerMovement.transform.position) < maxDistanceToPlayerToCanSpawn)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        foreach (GameObject spawn in spawns)
+        {
+            if (Vector3.Distance(spawn.transform.position, _playerMovement.transform.position) < maxDistanceToPlayerToCanSpawn)
+            {
+                Gizmos.color = Color.blue;
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+            }
+            Gizmos.DrawLine(spawn.transform.position, _playerMovement.transform.position);
+        }
     }
 
 }
