@@ -7,6 +7,7 @@ public class EnemyIA : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private EnemyHealth enemyHealth;
+    [SerializeField] private Transform blindTarget;
     public EnemyScriptable zScriptable;
     public int pointsReward;
     public int pointsForHitReward;
@@ -34,16 +35,29 @@ public class EnemyIA : MonoBehaviour
     {
         if (!enemyHealth.die)
         {
-            if (!isAttacking)
+            if (_gameManager.playerTeleported)
             {
-                agent.SetDestination(_player.position);
+                PlayerIsInPAPRoom();
             }
-            CheckDistanceToPlayer();
+            else
+            {
+                if (!isAttacking)
+                {
+                    agent.SetDestination(_player.position);
+                }
+                CheckDistanceToPlayer();
+            }
         }
         else
         {
             agent.speed = 0;
         } 
+    }
+
+    private void PlayerIsInPAPRoom()
+    {
+        agent.ResetPath();
+        agent.SetDestination(blindTarget.position);
     }
 
     private void ChangeSpeedEnemy()

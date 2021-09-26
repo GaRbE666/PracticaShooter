@@ -11,9 +11,16 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private Transform muzzlePosition;
     [SerializeField] private GameObject impactEffect;
     [SerializeField] private GameObject headExplodeEffect;
+
     [Header("Texts References")]
     [SerializeField] private Text gunNameText;
     [SerializeField] private Text noAmmoText;
+
+    [Header("PAP References")]
+    public bool papActived;
+    public GameObject gunModel;
+    public Material papMaterial;
+    [SerializeField] private GameObject papMuzzleParticles;
 
     private Text _chargeAmmoText;
     private Text _bedroomAmmoText;
@@ -23,7 +30,8 @@ public class GunShoot : MonoBehaviour
     [HideInInspector] public bool isRealoading;
     [HideInInspector] public int currentChargerAmmo;
     [HideInInspector] public int currentBedroomAmmo;
-    public float reloadTime;
+    [HideInInspector] public int gunDamage;
+    [HideInInspector] public float reloadTime;
     [HideInInspector] public float fireRate;
 
     private float _nextTimeToFire;
@@ -48,6 +56,7 @@ public class GunShoot : MonoBehaviour
     {
         reloadTime = gunScriptable.reloadingtime;
         fireRate = gunScriptable.fireRate;
+        gunDamage = gunScriptable.damage;
     }
 
     private void InitializeAmmo()
@@ -59,12 +68,11 @@ public class GunShoot : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateAmmoTexts();
+        //UpdateAmmoTexts();
         isRealoading = false;
         gunNameText.text = gunScriptable.name;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isRealoading)
@@ -155,8 +163,8 @@ public class GunShoot : MonoBehaviour
     private void ThrowRay()
     {
         RaycastHit hit;
-        GameObject muzzleClone = Instantiate(muzzleParticles, muzzlePosition.transform.position, transform.rotation);
-        //muzzleClone.transform.SetParent(muzzlePosition);
+        SelectMuzzleIfPapActived();
+        
         if (Physics.Raycast(_cam.transform.position, _cam.transform.forward, out hit, gunScriptable.range))
         {
             if (hit.collider.gameObject.layer == 9)
@@ -164,7 +172,19 @@ public class GunShoot : MonoBehaviour
                 CalculateZombieDamage(hit);
             }
         }
-        Debug.DrawRay(_cam.transform.position, _cam.transform.forward, Color.green, gunScriptable.range);
+        //Debug.DrawRay(_cam.transform.position, _cam.transform.forward, Color.green, gunScriptable.range);
+    }
+
+    private void SelectMuzzleIfPapActived()
+    {
+        if (!papActived)
+        {
+            Instantiate(muzzleParticles, muzzlePosition.transform.position, transform.rotation);
+        }
+        else
+        {
+            Instantiate(papMuzzleParticles, muzzlePosition.transform.position, transform.rotation);
+        }
     }
 
     private void CalculateZombieDamage(RaycastHit hit)
@@ -172,7 +192,7 @@ public class GunShoot : MonoBehaviour
         EnemyHealth enemy = hit.collider.gameObject.GetComponentInParent<EnemyHealth>();
         if (enemy != null)
         {
-            enemy.TakeDamage(gunScriptable.damage);
+            enemy.TakeDamage(gunDamage);
         }
         SelectWhatParticleShow(hit, enemy);
 
@@ -204,21 +224,23 @@ public class GunShoot : MonoBehaviour
     public void UpdateAmmoTexts()
     {
 
-        if (currentChargerAmmo < 10 && !gunScriptable.singleShoot)
+        if (currentChargerAmmo > 0 && currentChargerAmmo < 10 && !gunScriptable.singleShoot)
         {
-            noAmmoText.text = "Reload...";
+            noAmmoText.text = "Recarga...";
             noAmmoText.color = Color.yellow;
         }
-        
-        if(currentChargerAmmo == 0)
+        else if (currentChargerAmmo == 0)
         {
-            noAmmoText.text = "No ammo";
+            noAmmoText.text = "Sin munición";
             noAmmoText.color = Color.red;
         }
         else
         {
             noAmmoText.text = "";
         }
+
+
+
 
         if (currentChargerAmmo <= 0)
         {
@@ -228,6 +250,7 @@ public class GunShoot : MonoBehaviour
         {
             currentBedroomAmmo = 0;
         }
+
         _chargeAmmoText.text = currentChargerAmmo.ToString();
         _bedroomAmmoText.text = currentBedroomAmmo.ToString();
     }

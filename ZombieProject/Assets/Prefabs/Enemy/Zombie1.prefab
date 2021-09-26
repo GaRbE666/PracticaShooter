@@ -2873,6 +2873,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 7338502672333530457}
   enemyHealth: {fileID: 7338502672333530460}
+  blindTarget: {fileID: 436805027023556451, guid: 253df572b1d0b454aaa3efbc2aefe8b0,
+    type: 3}
   zScriptable: {fileID: 11400000, guid: 5df7924b9f6c09741a08e2d880424543, type: 2}
   pointsReward: 0
   pointsForHitReward: 0

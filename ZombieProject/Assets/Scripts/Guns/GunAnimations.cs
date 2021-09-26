@@ -13,6 +13,7 @@ public class GunAnimations : MonoBehaviour
     private int shooting = Animator.StringToHash("shoot");
     private int reloading = Animator.StringToHash("reload");
     private int reloadingMulti = Animator.StringToHash("reloadMultiplier");
+    private int drawGun = Animator.StringToHash("draw");
 
     private void Awake()
     {
@@ -70,5 +71,10 @@ public class GunAnimations : MonoBehaviour
         {
             animator.SetFloat(reloadingMulti, 1.0f);
         }
+    }
+
+    public void DrawGunAgain()
+    {
+        animator.SetTrigger(drawGun);
     }
 }

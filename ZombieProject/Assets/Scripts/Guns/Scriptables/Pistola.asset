@@ -18,7 +18,7 @@ MonoBehaviour:
   maxBulletPerCharger: 6
   reloadingtime: 4
   fireRate: 0
-  damage: 75
+  damage: 50
   range: 100
   singleShoot: 1
   ammoType: 0

@@ -11,17 +11,19 @@ public class SpawnManager : MonoBehaviour
 
     [Header("Parameters")]
     public int maxZombiesPerRound;
-    [SerializeField] private int maxZombiesInScene;
+    public int maxZombiesInScene;
     [SerializeField] private float maxTimeToSpawn;
     [SerializeField] private float minTimeToSpawn;
     [SerializeField] private float maxDistanceToPlayerToCanSpawn;
 
+    //Añadir en todos los public [HideInInspector]
     public int visitedRooms;
     public int currentZombiesInScene;
     public int currentZombiesPerRound;
     private bool _canSpawn;
     private bool _canSpawnMore;
     private float _timeRandomToSpawn;
+    private GameManager _gameManager;
     [HideInInspector] public bool _endRound;
     private PlayerMovement _playerMovement;
     public List<GameObject> spawnsActived;
@@ -29,6 +31,7 @@ public class SpawnManager : MonoBehaviour
     private void Awake()
     {
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Start()
@@ -41,7 +44,7 @@ public class SpawnManager : MonoBehaviour
     {
         CheckNumberMaxOfZombiesInScene();
         CheckMaxZombiesPerRound();
-        if (_canSpawn && _canSpawnMore && !_endRound)
+        if (_canSpawn && _canSpawnMore && !_endRound && !_gameManager.playerTeleported)
         {
             StartCoroutine(SpawnZombies());
         }
