@@ -11,15 +11,7 @@ public class EnemyPowerUpManager : MonoBehaviour
 
     private void Awake()
     {
-        try
-        {
-            _itemDP = GameObject.Find("DoublePointsActived").GetComponent<Item>();
-            _itemIK = GameObject.Find("InstakillActived").GetComponent<Item>();
-        }
-        catch (System.Exception)
-        {
-            Debug.LogWarning("No PowerUp actived");
-        }
+        StoreItem();
         _enemyHealth = GetComponent<EnemyHealth>();
         _enemyIA = GetComponent<EnemyIA>();
     }
@@ -53,6 +45,27 @@ public class EnemyPowerUpManager : MonoBehaviour
                 _enemyIA.pointsReward *= 2;
                 _enemyIA.pointsForHitReward *= 2;
             }
+        }
+    }
+
+    public void StoreItem()
+    {
+        try
+        {
+            _itemDP = GameObject.Find("DoublePointsActived").GetComponent<Item>();
+        }
+        catch (System.Exception)
+        {
+            Debug.LogWarning("No DoublePoints actived");
+        }
+
+        try
+        {
+            _itemIK = GameObject.Find("InstakillActived").GetComponent<Item>();
+        }
+        catch (System.Exception)
+        {
+            Debug.LogWarning("No InstaKill actived");
         }
     }
 }

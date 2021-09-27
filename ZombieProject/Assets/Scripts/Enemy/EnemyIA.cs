@@ -12,14 +12,16 @@ public class EnemyIA : MonoBehaviour
     public int pointsReward;
     public int pointsForHitReward;
     public bool isAttacking;
+    public bool relaxZombies;
+    public bool angryZombies;
 
     private EnemyAnimations _enemyAnimations;
-    private Transform _player;
+    private PlayerMovement _player;
     private GameManager _gameManager;
 
     private void Awake()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = FindObjectOfType<PlayerMovement>();
         _enemyAnimations = GetComponent<EnemyAnimations>();
         _gameManager = FindObjectOfType<GameManager>();
     }
@@ -43,7 +45,7 @@ public class EnemyIA : MonoBehaviour
             {
                 if (!isAttacking)
                 {
-                    agent.SetDestination(_player.position);
+                    agent.SetDestination(_player.transform.position);
                 }
                 CheckDistanceToPlayer();
             }
@@ -64,18 +66,22 @@ public class EnemyIA : MonoBehaviour
     {
         if (_gameManager.currentRound <= 3)
         {
+            relaxZombies = true;
+            angryZombies = false;
             agent.speed = zScriptable.walkSpeed;
         }
 
         if (_gameManager.currentRound > 3)
         {
+            relaxZombies = false;
+            angryZombies = true;
             agent.speed = zScriptable.runSpeed;
         }
     }
 
     private void CheckDistanceToPlayer()
     {
-        if (Vector3.Distance(transform.position, _player.position) < zScriptable.distanceToAttack && !isAttacking)
+        if (Vector3.Distance(transform.position, _player.transform.position) < zScriptable.distanceToAttack && !isAttacking)
         {
             StartCoroutine(Attack());
         }
@@ -95,6 +101,6 @@ public class EnemyIA : MonoBehaviour
 
     private bool CheckDistanceToStop()
     {
-        return Vector3.Distance(transform.position, _player.position) < zScriptable.distanceToStop;
+        return Vector3.Distance(transform.position, _player.transform.position) < zScriptable.distanceToStop;
     }
 }

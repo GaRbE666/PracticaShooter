@@ -70,16 +70,16 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.558
+    - _Glossiness: 0.79
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
-    - _SnowAmount: 0.5
-    - _SnowGlossiness: 0.303
-    - _SnowMetallic: 0.159
+    - _SnowAmount: 1
+    - _SnowGlossiness: 0.59
+    - _SnowMetallic: 0.27
     - _SnowTransitionSmoothness: 0.04
     - _SpecularHighlights: 1
     - _SrcBlend: 1

@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private Transform itemSpawn;
     [SerializeField] private EnemyAnimations enemyAnimation;
     [SerializeField] private bool alwaysDroopItem;
+    [SerializeField] private GameObject enemyHeadReference;
     public float currentHealth;
     public EnemyScriptable zScriptable;
     public bool die;
@@ -15,12 +16,14 @@ public class EnemyHealth : MonoBehaviour
     private PlayerScore _playerScore;
     private EnemyIA _enemyIA;
     private SpawnManager _spawnManager;
+    private EnemyAudio _enemyAudio;
 
     private void Awake()
     {
         _playerScore = FindObjectOfType<PlayerScore>();
         _enemyIA = GetComponent<EnemyIA>();
         _spawnManager = FindObjectOfType<SpawnManager>();
+        _enemyAudio = GetComponentInChildren<EnemyAudio>();
     }
 
     // Start is called before the first frame update
@@ -46,10 +49,10 @@ public class EnemyHealth : MonoBehaviour
 
     public IEnumerator Die()
     {
-        yield return new WaitForSeconds(1f);
+        DisableAllColliders();
+        yield return new WaitForSeconds(.2f);
         die = true;
         _spawnManager.currentZombiesInScene--;
-        DisableAllColliders();
         DropRandomItem();
         AddScoreToPlayer();
         Destroy(gameObject, 30f);
@@ -82,5 +85,11 @@ public class EnemyHealth : MonoBehaviour
             int indexRand = Random.Range(0, zScriptable.items.Count);
             Instantiate(zScriptable.items[indexRand], itemSpawn.position, itemSpawn.rotation);
         }
+    }
+
+    public void DisableHead()
+    {
+        enemyHeadReference.SetActive(false);
+        _enemyAudio.PlayHeadShoot();
     }
 }

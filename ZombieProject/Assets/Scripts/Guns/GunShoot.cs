@@ -68,7 +68,7 @@ public class GunShoot : MonoBehaviour
 
     private void OnEnable()
     {
-        //UpdateAmmoTexts();
+        UpdateAmmoTexts();
         isRealoading = false;
         gunNameText.text = gunScriptable.name;
     }
@@ -172,7 +172,7 @@ public class GunShoot : MonoBehaviour
                 CalculateZombieDamage(hit);
             }
         }
-        //Debug.DrawRay(_cam.transform.position, _cam.transform.forward, Color.green, gunScriptable.range);
+
     }
 
     private void SelectMuzzleIfPapActived()
@@ -204,7 +204,7 @@ public class GunShoot : MonoBehaviour
         {
             GameObject impactHeadClone = Instantiate(headExplodeEffect, hit.collider.gameObject.transform.position, headExplodeEffect.transform.rotation);
             impactHeadClone.transform.SetParent(hit.transform);
-            GameObject.Find("Z_Head").SetActive(false);
+            enemy.DisableHead();
             hit.collider.enabled = false;
         }
         else

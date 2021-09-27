@@ -6,22 +6,31 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     [SerializeField] private float timeToDisappear;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip itemVoice;
+    [SerializeField] private AudioSource powerUpAudioSource;
+    [SerializeField] private AudioClip spawnPowerUp;
+    [SerializeField] private AudioClip effectEnds;
+    [SerializeField] private AudioClip pickPowerUp;
+    [SerializeField] private GameObject nukeExplosion;
+
     public ItemScriptable itemScriptable;
 
     private bool itemCatched;
 
-    private MeshRenderer meshRenderer;
+    //private MeshRenderer[] meshRenderer;
     private BoxCollider boxCollider;
     private Text powerUpTimerEffect;
     private float timeToDestroy;
-    private PlayerItemManager playerItemManager;
+    //private PlayerItemManager playerItemManager;
+    private EnemyPowerUpManager[] _enemyPowerUpManager;
     public bool instakillActived;
     public bool doublePointsActived;
 
     private void Awake()
     {
-        playerItemManager = FindObjectOfType<PlayerItemManager>();
-        meshRenderer = GetComponent<MeshRenderer>();
+        //playerItemManager = FindObjectOfType<PlayerItemManager>();
+        //meshRenderer = GetComponentsInChildren<MeshRenderer>();
         boxCollider = GetComponent<BoxCollider>();
         powerUpTimerEffect = FindObjectOfType<PowerUpTimer>().GetComponent<Text>();
     }
@@ -29,16 +38,19 @@ public class Item : MonoBehaviour
     private void Start()
     {
         timeToDestroy = itemScriptable.timeToDestroy;
+        powerUpAudioSource.PlayOneShot(spawnPowerUp);
     }
 
     private void Update()
     {
         if (itemCatched)
         {
+            
             timeToDestroy -= Time.deltaTime;
             UpdatePowerUpText();
             if (timeToDestroy <= 0)
             {
+                
                 Destroy(gameObject, 1f);
             }
 
@@ -49,6 +61,7 @@ public class Item : MonoBehaviour
             
             if (timeToDisappear <= 0)
             {
+
                 Destroy(gameObject);
             }
         }
@@ -69,11 +82,35 @@ public class Item : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             itemCatched = true;
-            meshRenderer.enabled = false;
             boxCollider.enabled = false;
-            playerItemManager.ShowText(itemScriptable.name);
+            DisableVisualPowerUp();
+            powerUpAudioSource.PlayOneShot(pickPowerUp);
+            //playerItemManager.ShowText(itemScriptable.itemName);
+            PlayItemVoice();
             SelectItem(other);
-            
+            FindAllZombiePowerUpManagerReferences();
+        }
+    }
+
+    private void DisableVisualPowerUp()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (i == transform.childCount - 1)
+            {
+                return;
+            }
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+        
+    }
+
+    private void FindAllZombiePowerUpManagerReferences()
+    {
+        _enemyPowerUpManager = FindObjectsOfType<EnemyPowerUpManager>();
+        foreach (EnemyPowerUpManager EPUM in _enemyPowerUpManager)
+        {
+            EPUM.StoreItem();
         }
     }
 
@@ -106,6 +143,7 @@ public class Item : MonoBehaviour
 
     private void Kaboom()
     {
+        Instantiate(nukeExplosion, transform.position, Quaternion.identity);
         EnemyHealth[] enemies = FindObjectsOfType<EnemyHealth>();
         List<EnemyHealth> enemiesAlive = new List<EnemyHealth>();
 
@@ -116,10 +154,10 @@ public class Item : MonoBehaviour
                 enemiesAlive.Add(enemy);
             }
         }
-
+        Debug.Log(enemiesAlive.Count);
         foreach (EnemyHealth enemy in enemiesAlive)
         {
-            enemy.Die();
+            StartCoroutine(enemy.Die());
         }
     }
 
@@ -131,6 +169,7 @@ public class Item : MonoBehaviour
     private IEnumerator InstaKill()
     {
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
+        powerUpAudioSource.PlayOneShot(effectEnds);
         instakillActived = false;
         EnemyHealth[] enemies2 = FindObjectsOfType<EnemyHealth>();
         foreach (EnemyHealth enemy in enemies2)
@@ -139,17 +178,14 @@ public class Item : MonoBehaviour
             {
                 enemy.GetComponent<EnemyHealth>().currentHealth = enemy.GetComponent<EnemyHealth>().zScriptable.maxHealth;
             }
-            Debug.Log(enemy.GetComponent<EnemyHealth>().currentHealth);
         }
     }
 
     private IEnumerator DoublePoints()
     {
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
-
         EnemyIA[] enemies2 = FindObjectsOfType<EnemyIA>();
         doublePointsActived = false;
-        Debug.Log("Descativo los dobles puntos");
         foreach (EnemyIA enemy in enemies2)
         {
             if (enemy != null && !enemy.GetComponent<EnemyHealth>().die)
@@ -164,6 +200,11 @@ public class Item : MonoBehaviour
     {
         other.GetComponent<PlayerScore>().AddScore(1000);
         Destroy(gameObject);
+    }
+
+    private void PlayItemVoice()
+    {
+        audioSource.PlayOneShot(itemVoice);
     }
 
 }

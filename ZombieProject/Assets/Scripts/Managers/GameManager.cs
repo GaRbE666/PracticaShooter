@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool spawnInStart;
     [SerializeField] private EnemyScriptable enemyScriptable;
     public ZombieSpawnTable[] zombieSpawnTable;
+    //public delegate void RoundChange();
+    //public event RoundChange RoundChangeReleased;
+
     public int currentRound;
     public bool powerOn;
     public bool playerTeleported;
@@ -18,12 +21,15 @@ public class GameManager : MonoBehaviour
     private SpawnManager _spawnManager;
     private bool _roundTransition;
     private PlayerMovement _playerMovement;
+    private AudioManager _audioManager;
 
     private void Awake()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
         _powerOnMethod = FindObjectOfType<PowerOn>();
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _audioManager = FindObjectOfType<AudioManager>();
+
     }
 
     private void Start()
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
         {
             if (_spawnManager._endRound && _roundTransition)
             {
+                //RoundChangeReleased?.Invoke();
                 StartCoroutine(RoundCompleted());
             }
         }
@@ -68,12 +75,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     public IEnumerator RoundCompleted()
     {
         _roundTransition = false;
-        yield return new WaitForSeconds(5f);
+        _audioManager.PlayEndRoundSound();
+        yield return new WaitForSeconds(9f);
+        _audioManager.PlayStartRound();
+        yield return new WaitForSeconds(12f);
         RoundUp();
-        yield return new WaitForSeconds(2f);
         _spawnManager.ResetAllCurrentZombies();
         _spawnManager._endRound = false;
         _roundTransition = true;

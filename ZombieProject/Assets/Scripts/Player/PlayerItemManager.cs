@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class PlayerItemManager : MonoBehaviour
 {
     private PlayerGuns playerGuns;
-    private Text itemNameText;
+    //private Text itemNameText;
 
     private void Awake()
     {
-        itemNameText = FindObjectOfType<PowerUpName>().GetComponent<Text>();
+        //itemNameText = FindObjectOfType<PowerUpName>().GetComponent<Text>();
         playerGuns = GetComponent<PlayerGuns>();
     }
 
@@ -38,18 +38,18 @@ public class PlayerItemManager : MonoBehaviour
         }
     }
 
-    public void ShowText(string powerUpName)
-    {
-        StartCoroutine(ShowTextCoroutine(powerUpName));
-    }
+    //public void ShowText(string powerUpName)
+    //{
+    //    StartCoroutine(ShowTextCoroutine(powerUpName));
+    //}
 
-    public IEnumerator ShowTextCoroutine(string powerUpName)
-    {
-        itemNameText.text = powerUpName;
-        itemNameText.enabled = true;
-        yield return new WaitForSeconds(3f);
-        itemNameText.enabled = false;
-    }
+    //public IEnumerator ShowTextCoroutine(string powerUpName)
+    //{
+    //    itemNameText.text = powerUpName;
+    //    itemNameText.enabled = true;
+    //    yield return new WaitForSeconds(3f);
+    //    itemNameText.enabled = false;
+    //}
 
 
 }
