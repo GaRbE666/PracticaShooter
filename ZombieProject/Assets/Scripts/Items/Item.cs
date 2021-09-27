@@ -50,7 +50,6 @@ public class Item : MonoBehaviour
             UpdatePowerUpText();
             if (timeToDestroy <= 0)
             {
-                
                 Destroy(gameObject, 1f);
             }
 
@@ -61,7 +60,6 @@ public class Item : MonoBehaviour
             
             if (timeToDisappear <= 0)
             {
-
                 Destroy(gameObject);
             }
         }
@@ -85,7 +83,6 @@ public class Item : MonoBehaviour
             boxCollider.enabled = false;
             DisableVisualPowerUp();
             powerUpAudioSource.PlayOneShot(pickPowerUp);
-            //playerItemManager.ShowText(itemScriptable.itemName);
             PlayItemVoice();
             SelectItem(other);
             FindAllZombiePowerUpManagerReferences();
@@ -184,6 +181,7 @@ public class Item : MonoBehaviour
     private IEnumerator DoublePoints()
     {
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
+        powerUpAudioSource.PlayOneShot(effectEnds);
         EnemyIA[] enemies2 = FindObjectsOfType<EnemyIA>();
         doublePointsActived = false;
         foreach (EnemyIA enemy in enemies2)

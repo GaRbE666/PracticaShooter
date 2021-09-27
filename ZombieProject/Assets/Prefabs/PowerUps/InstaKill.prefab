@@ -4873,7 +4873,8 @@ AudioSource:
   m_GameObject: {fileID: 1750856198566130851}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7314854146339700093, guid: ec84a9feb923cca428670a4aca5944f4,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -5268,6 +5269,7 @@ MonoBehaviour:
   spawnPowerUp: {fileID: 8300000, guid: 50f741099867d08498666339dc5fa699, type: 3}
   effectEnds: {fileID: 8300000, guid: 09b0092995db5e9469221ca4daccbba6, type: 3}
   pickPowerUp: {fileID: 8300000, guid: 40eff30e602065a4bab13b1babf4b1bd, type: 3}
+  nukeExplosion: {fileID: 0}
   itemScriptable: {fileID: 11400000, guid: a1d85ea9461a635499ca0675904e7020, type: 2}
   instakillActived: 0
   doublePointsActived: 0
@@ -5280,7 +5282,8 @@ AudioSource:
   m_GameObject: {fileID: 5552477928320400790}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7314854146339700093, guid: ec84a9feb923cca428670a4aca5944f4,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

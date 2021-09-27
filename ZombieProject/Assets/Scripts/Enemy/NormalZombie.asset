@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NormalZombie
   m_EditorClassIdentifier: 
   zombieName: Normal
-  maxHealth: 650
+  maxHealth: 675
   walkSpeed: 1.5
   runSpeed: 6
   distanceToAttack: 3
@@ -21,4 +21,4 @@ MonoBehaviour:
   pointReward: 100
   pointsForHit: 10
   items:
-  - {fileID: 5552477928320400790, guid: 7493d74f1a040d449845be0644c89525, type: 3}
+  - {fileID: 5552477928320400790, guid: 1ce75679be7fada4ca598ffcade593b9, type: 3}
