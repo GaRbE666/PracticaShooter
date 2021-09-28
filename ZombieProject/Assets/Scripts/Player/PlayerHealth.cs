@@ -12,11 +12,13 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Sprite[] damageSprite;
 
     private PlayerMovement _playerMovement;
-    public bool _isDie;
+    private PlayerAudio _playerAudio;
+    [HideInInspector] public bool _isDie;
 
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
+        _playerAudio = GetComponentInChildren<PlayerAudio>();
     }
 
     // Start is called before the first frame update
@@ -34,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage()
     {
         currentHealth--;
-        
+        _playerAudio.PlayPlayerDamageAudio();
         if (currentHealth <= 0)
         {
             Die();

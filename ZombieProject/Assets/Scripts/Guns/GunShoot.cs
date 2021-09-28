@@ -36,6 +36,7 @@ public class GunShoot : MonoBehaviour
 
     private float _nextTimeToFire;
     private PlayerMovement _playerMovement;
+    private PlayerAudio _playerAudio;
     private Camera _cam;
 
     private void Awake()
@@ -43,6 +44,7 @@ public class GunShoot : MonoBehaviour
         _playerMovement = FindObjectOfType<PlayerMovement>();
         _chargeAmmoText = FindObjectOfType<chargerAmmo>().GetComponent<Text>();
         _bedroomAmmoText = FindObjectOfType<bedroomAmmo>().GetComponent<Text>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
         _cam = Camera.main;
     }
 
@@ -202,6 +204,7 @@ public class GunShoot : MonoBehaviour
     {
         if (hit.collider.gameObject.name.Equals("HeadCollider") && enemy.currentHealth <= 0)
         {
+            _playerAudio.PlayHeadShootAudio();
             GameObject impactHeadClone = Instantiate(headExplodeEffect, hit.collider.gameObject.transform.position, headExplodeEffect.transform.rotation);
             impactHeadClone.transform.SetParent(hit.transform);
             enemy.DisableHead();
@@ -217,8 +220,29 @@ public class GunShoot : MonoBehaviour
     private void SpendAmmo()
     {
         currentChargerAmmo--;
-
+        ControlOfMunitionAudios();
         UpdateAmmoTexts();
+    }
+
+    private void ControlOfMunitionAudios()
+    {
+        if (currentChargerAmmo > 0 && currentChargerAmmo < 10 && !gunScriptable.singleShoot && !_playerAudio._lowAmmoPlaying)
+        {
+            Debug.Log("Reproduzco lowAmmo");
+            _playerAudio._lowAmmoPlaying = true;
+            _playerAudio._noAmmoPlaying = false;
+            _playerAudio.PlayLowAmmoAudio();
+        }
+        else if (currentChargerAmmo == 0 && !_playerAudio._noAmmoPlaying)
+        {
+            _playerAudio._noAmmoPlaying = true;
+            _playerAudio.PlayNoAmmoAudio();
+
+        }
+        else if (currentChargerAmmo >= 10 && _playerAudio._lowAmmoPlaying)
+        {
+            _playerAudio._lowAmmoPlaying = false;
+        }
     }
 
     public void UpdateAmmoTexts()
@@ -238,9 +262,6 @@ public class GunShoot : MonoBehaviour
         {
             noAmmoText.text = "";
         }
-
-
-
 
         if (currentChargerAmmo <= 0)
         {

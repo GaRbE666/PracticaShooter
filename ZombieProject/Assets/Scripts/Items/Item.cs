@@ -19,25 +19,27 @@ public class Item : MonoBehaviour
     private bool itemCatched;
 
     //private MeshRenderer[] meshRenderer;
-    private BoxCollider boxCollider;
-    private Text powerUpTimerEffect;
-    private float timeToDestroy;
+    private BoxCollider _boxCollider;
+    private Text _powerUpTimerEffect;
+    private float _timeToDestroy;
+    private PlayerAudio _playerAudio;
     //private PlayerItemManager playerItemManager;
     private EnemyPowerUpManager[] _enemyPowerUpManager;
-    public bool instakillActived;
-    public bool doublePointsActived;
+    [HideInInspector] public bool instakillActived;
+    [HideInInspector] public bool doublePointsActived;
 
     private void Awake()
     {
         //playerItemManager = FindObjectOfType<PlayerItemManager>();
         //meshRenderer = GetComponentsInChildren<MeshRenderer>();
-        boxCollider = GetComponent<BoxCollider>();
-        powerUpTimerEffect = FindObjectOfType<PowerUpTimer>().GetComponent<Text>();
+        _boxCollider = GetComponent<BoxCollider>();
+        _powerUpTimerEffect = FindObjectOfType<PowerUpTimer>().GetComponent<Text>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     private void Start()
     {
-        timeToDestroy = itemScriptable.timeToDestroy;
+        _timeToDestroy = itemScriptable.timeToDestroy;
         powerUpAudioSource.PlayOneShot(spawnPowerUp);
     }
 
@@ -46,9 +48,9 @@ public class Item : MonoBehaviour
         if (itemCatched)
         {
             
-            timeToDestroy -= Time.deltaTime;
+            _timeToDestroy -= Time.deltaTime;
             UpdatePowerUpText();
-            if (timeToDestroy <= 0)
+            if (_timeToDestroy <= 0)
             {
                 Destroy(gameObject, 1f);
             }
@@ -67,11 +69,11 @@ public class Item : MonoBehaviour
 
     private void UpdatePowerUpText()
     {
-        powerUpTimerEffect.enabled = true;
-        powerUpTimerEffect.text = timeToDestroy.ToString("00");
-        if (timeToDestroy <= 0)
+        _powerUpTimerEffect.enabled = true;
+        _powerUpTimerEffect.text = _timeToDestroy.ToString("00");
+        if (_timeToDestroy <= 0)
         {
-            powerUpTimerEffect.enabled = false;
+            _powerUpTimerEffect.enabled = false;
         }
     }
 
@@ -80,9 +82,10 @@ public class Item : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             itemCatched = true;
-            boxCollider.enabled = false;
+            _boxCollider.enabled = false;
             DisableVisualPowerUp();
             powerUpAudioSource.PlayOneShot(pickPowerUp);
+            //Debug.Log(powerUpAudioSource.clip.name);
             PlayItemVoice();
             SelectItem(other);
             FindAllZombiePowerUpManagerReferences();
@@ -140,6 +143,7 @@ public class Item : MonoBehaviour
 
     private void Kaboom()
     {
+        _playerAudio.PlayKaboomAudio();
         Instantiate(nukeExplosion, transform.position, Quaternion.identity);
         EnemyHealth[] enemies = FindObjectsOfType<EnemyHealth>();
         List<EnemyHealth> enemiesAlive = new List<EnemyHealth>();
@@ -160,11 +164,13 @@ public class Item : MonoBehaviour
 
     private void MaxAmmo(Collider other)
     {
+        _playerAudio.PlayMaxAmmoAudio();
         other.GetComponent<PlayerItemManager>().MaxAmmo();
     }
 
     private IEnumerator InstaKill()
     {
+        _playerAudio.PlayInstaKillAduio();
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
         powerUpAudioSource.PlayOneShot(effectEnds);
         instakillActived = false;
@@ -180,6 +186,7 @@ public class Item : MonoBehaviour
 
     private IEnumerator DoublePoints()
     {
+        _playerAudio.PlayDobulePointsAudio();
         yield return new WaitForSeconds(itemScriptable.timeToDestroy);
         powerUpAudioSource.PlayOneShot(effectEnds);
         EnemyIA[] enemies2 = FindObjectsOfType<EnemyIA>();

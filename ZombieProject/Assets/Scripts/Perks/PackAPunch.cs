@@ -9,6 +9,13 @@ public class PackAPunch : MonoBehaviour
     [SerializeField] private Text papText;
     [SerializeField] private int cost;
 
+    private PlayerAudio _playerAudio;
+
+    private void Awake()
+    {
+        _playerAudio = FindObjectOfType<PlayerAudio>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -28,19 +35,7 @@ public class PackAPunch : MonoBehaviour
             GunShoot gunShootTemp = other.GetComponentInChildren<GunShoot>();
             if (!gunShootTemp.papActived)
             {
-                if (Input.GetKeyDown(KeyCode.F))
-                {
-                    PlayerScore playerScoreTemp = other.GetComponent<PlayerScore>();
-                    if (playerScoreTemp.score >= cost)
-                    {
-                        gunShootTemp.GetComponent<GunAnimations>().DrawGunAgain();
-                        playerScoreTemp.QuitScore(cost);
-                        gunShootTemp.papActived = true;
-                        gunShootTemp.gunModel.GetComponent<SkinnedMeshRenderer>().material = gunShootTemp.papMaterial;
-                        gunShootTemp.gunDamage *= 3;
-                        DisableText();
-                    }
-                }
+                PlayerPressKey(gunShootTemp, other);
             }
         }
     }
@@ -50,6 +45,32 @@ public class PackAPunch : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             DisableText();
+        }
+    }
+
+    private void UpgradeGun(GunShoot gunShootTemp, Collider other, PlayerScore playerScoreTemp)
+    {
+        gunShootTemp.GetComponent<GunAnimations>().DrawGunAgain();
+        playerScoreTemp.QuitScore(cost);
+        gunShootTemp.papActived = true;
+        gunShootTemp.gunModel.GetComponent<SkinnedMeshRenderer>().material = gunShootTemp.papMaterial;
+        gunShootTemp.gunDamage *= 3;
+        DisableText();
+    }
+
+    private void PlayerPressKey(GunShoot gunShootTemp, Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            PlayerScore playerScoreTemp = other.GetComponent<PlayerScore>();
+            if (playerScoreTemp.score >= cost)
+            {
+                UpgradeGun(gunShootTemp, other, playerScoreTemp);
+            }
+            else
+            {
+                _playerAudio.PlayNoMoneyAudio();
+            }
         }
     }
 

@@ -13,16 +13,18 @@ public class Teleport : MonoBehaviour
     private GameManager _gameManager;
     private TeleportSpawn _teleportSpawn;
     private PlayerMovement _playerMovement;
+    private PlayerAudio _playerAudio;
     //private PAPRoom _papRoom;
-    public bool teleportActived;
-    public bool link1;
-    public bool teleportIsRecovering;
+    [HideInInspector] public bool teleportActived;
+    [HideInInspector] public bool link1;
+    [HideInInspector] public bool teleportIsRecovering;
 
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
         _teleportSpawn = FindObjectOfType<TeleportSpawn>();
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     private void Start()
@@ -61,6 +63,7 @@ public class Teleport : MonoBehaviour
             }
             else
             {
+                _playerAudio.PlayNoPowerAudio();
                 SetTeleportText("Antes debes activar la corriente");
                 ActiveText();
             }

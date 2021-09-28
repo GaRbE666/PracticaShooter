@@ -17,6 +17,7 @@ public class EnemyHealth : MonoBehaviour
     private EnemyIA _enemyIA;
     private SpawnManager _spawnManager;
     private EnemyAudio _enemyAudio;
+    private PlayerAudio _playerAudio;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class EnemyHealth : MonoBehaviour
         _enemyIA = GetComponent<EnemyIA>();
         _spawnManager = FindObjectOfType<SpawnManager>();
         _enemyAudio = GetComponentInChildren<EnemyAudio>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     // Start is called before the first frame update
@@ -51,6 +53,7 @@ public class EnemyHealth : MonoBehaviour
     {
         DisableAllColliders();
         yield return new WaitForSeconds(.2f);
+        _playerAudio.PlayKillZombieAudio();
         die = true;
         _spawnManager.currentZombiesInScene--;
         DropRandomItem();

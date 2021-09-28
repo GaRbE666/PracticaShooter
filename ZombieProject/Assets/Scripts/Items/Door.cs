@@ -11,10 +11,12 @@ public class Door : MonoBehaviour
     [SerializeField] private bool electricityRequired;
 
     private PowerOn _powerOn;
+    private PlayerAudio _playerAudio;
 
     private void Awake()
     {
         _powerOn = FindObjectOfType<PowerOn>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     private void Start()
@@ -35,19 +37,7 @@ public class Door : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                if (!electricityRequired)
-                {
-                    PlayerScore playerScore = other.GetComponent<PlayerScore>();
-                    if (playerScore.score >= pointsRequired)
-                    {
-                        doorText.enabled = false;
-                        playerScore.QuitScore(pointsRequired);
-                        DisableAllDoors();
-                    }
-                }
-            }
+            PlayerPressKey(other);
         }
     }
 
@@ -56,6 +46,37 @@ public class Door : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorText.enabled = false;
+        }
+    }
+
+    private void PlayerPressKey(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            CheckIfPowerIsRequired(other);
+        }
+    }
+
+    private void CheckIfPowerIsRequired(Collider other)
+    {
+        if (!electricityRequired)
+        {
+            CheckPlayerScore(other);
+        }
+    }
+
+    private void CheckPlayerScore(Collider other)
+    {
+        PlayerScore playerScore = other.GetComponent<PlayerScore>();
+        if (playerScore.score >= pointsRequired)
+        {
+            doorText.enabled = false;
+            playerScore.QuitScore(pointsRequired);
+            DisableAllDoors();
+        }
+        else
+        {
+            _playerAudio.PlayNoMoneyAudio();
         }
     }
 

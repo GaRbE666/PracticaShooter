@@ -10,20 +10,22 @@ public class Perk : MonoBehaviour
     [SerializeField] private Text _perkText;
     private bool _canBuy;
     private PlayerPerkManager _playerPerkManager;
-    private PowerOn powerOn;
-    public bool perkAdquired;
+    private PowerOn _powerOn;
+    private PlayerAudio _playerAudio;
+    [HideInInspector] public bool perkAdquired;
 
     private void Awake()
     {
         _playerPerkManager = FindObjectOfType<PlayerPerkManager>();
         //_perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
-        powerOn = FindObjectOfType<PowerOn>();
+        _powerOn = FindObjectOfType<PowerOn>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     private void Start()
     {
         _perkText.enabled = false;
-        powerOn.PowerOnReleased += TurnOnPerk;
+        _powerOn.PowerOnReleased += TurnOnPerk;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,6 +42,7 @@ public class Perk : MonoBehaviour
             }
             else
             {
+                _playerAudio.PlayNoPowerAudio();
                 _perkText.text = "Antes debes activar la corriente";
                 _perkText.enabled = true;
             }
@@ -83,6 +86,10 @@ public class Perk : MonoBehaviour
             _canBuy = false;
             playerScore.QuitScore(scriptablePerk.cost);
             _playerPerkManager.SelectPerk(scriptablePerk.perkType, scriptablePerk.perkIcon);
+        }
+        else
+        {
+            _playerAudio.PlayNoMoneyAudio();
         }
     }
 

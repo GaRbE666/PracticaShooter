@@ -26,4 +26,144 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private AudioClip doublePoints;
     [SerializeField] private AudioClip kaboom;
     [SerializeField] private AudioClip maxAmmo;
+
+    public bool _noAmmoPlaying;
+    public bool _lowAmmoPlaying;
+  
+    private bool CanPlayOneAudio(int probability) //Metodo que determina en base a una probabilidad dada (entre 0 y 100) si un audio se reproduce o no
+    {
+        int numRand = Random.Range(0, 100);
+
+        if (numRand <= probability && !audioSource.isPlaying)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private int SelectOneAudioRandom(AudioClip[] audioList) //Método que devuelve un audio aleatorio dentro de una lista de audios
+    {
+        return Random.Range(0, audioList.Length);
+    }
+
+    public void PlayMaxAmmoAudio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(maxAmmo);
+        }
+    }
+
+    public void PlayKaboomAudio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(kaboom);
+        }
+    }
+
+    public void PlayDobulePointsAudio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(doublePoints);
+        }
+    }
+
+    public void PlayInstaKillAduio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(instaKill);
+        }
+    }
+
+    public void PlaySongsParts(int part)
+    {
+        if (CanPlayOneAudio(100))
+        {
+            switch (part)
+            {
+                case 1:
+                    audioSource.PlayOneShot(songParts[0]);
+                    break;
+                case 2:
+                    audioSource.PlayOneShot(songParts[1]);
+                    break;
+                case 3:
+                    audioSource.PlayOneShot(songParts[2]);
+                    break;
+                case 4:
+                    audioSource.PlayOneShot(songParts[3]);
+                    break;
+            }
+        }
+    }
+
+    public void PlayPowerOnAudio()
+    {
+        if (CanPlayOneAudio(100))
+        {
+            audioSource.PlayOneShot(power);
+        }
+    }
+
+    public void PlayNoPowerAudio()
+    {
+        if (CanPlayOneAudio(30))
+        {
+            audioSource.PlayOneShot(noPower[SelectOneAudioRandom(noPower)]);
+        }
+    }
+
+    public void PlayNoMoneyAudio()
+    {
+        if (CanPlayOneAudio(80))
+        {
+            audioSource.PlayOneShot(noMoney[SelectOneAudioRandom(noMoney)]);
+        }
+    }
+
+    public void PlayPlayerDamageAudio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(playerDamage[SelectOneAudioRandom(playerDamage)]);
+        }
+    }
+
+    public void PlayHeadShootAudio()
+    {
+        if (CanPlayOneAudio(30))
+        {
+            audioSource.PlayOneShot(headShoot[SelectOneAudioRandom(headShoot)]);
+        }
+    }
+
+    public void PlayKillZombieAudio()
+    {
+        if (CanPlayOneAudio(20))
+        {
+            audioSource.PlayOneShot(killZombie[SelectOneAudioRandom(killZombie)]);
+        }
+    }
+
+    public void PlayLowAmmoAudio()
+    {
+        if (CanPlayOneAudio(30))
+        {
+            audioSource.PlayOneShot(lowAmmo);
+        }
+    }
+
+    public void PlayNoAmmoAudio()
+    {
+        if (CanPlayOneAudio(50))
+        {
+            audioSource.PlayOneShot(noAmmo[SelectOneAudioRandom(noAmmo)]);
+        }
+    }
 }

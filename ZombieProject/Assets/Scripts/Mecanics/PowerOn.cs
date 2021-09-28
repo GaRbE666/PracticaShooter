@@ -11,10 +11,11 @@ public class PowerOn : MonoBehaviour
     public event Power PowerOnReleased;
 
     private GameManager _gameManager;
-
+    private PlayerAudio _playerAudio;
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _playerAudio = FindObjectOfType<PlayerAudio>();
     }
 
     private void Start()
@@ -61,6 +62,7 @@ public class PowerOn : MonoBehaviour
         {
             PowerOnReleased?.Invoke();
             _animation.Play();
+            _playerAudio.PlayPowerOnAudio();
         }
     }
 

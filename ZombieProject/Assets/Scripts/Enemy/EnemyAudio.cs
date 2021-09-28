@@ -40,7 +40,6 @@ public class EnemyAudio : MonoBehaviour
     private IEnumerator ShotOneAudio()
     {
         canSound = false;
-        Debug.Log("Reproduzco un sonido: ");
         PlayZombieScream();
         yield return new WaitForSeconds(RandomBetweenZombieScream());
         canSound = true;
