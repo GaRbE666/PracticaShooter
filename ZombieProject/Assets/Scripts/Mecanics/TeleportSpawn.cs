@@ -24,6 +24,7 @@ public class TeleportSpawn : MonoBehaviour
     private void Start()
     {
         teleportSpawnText.enabled = false;
+        PutCableMaterialOff();
     }
 
     private void OnTriggerEnter(Collider other)

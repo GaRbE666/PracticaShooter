@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Perk : MonoBehaviour
 {
     [SerializeField] private ScriptablePerk scriptablePerk;
+    [SerializeField] private PerkAudio perkAudio;
 
     [SerializeField] private Text _perkText;
     private bool _canBuy;
@@ -36,8 +37,10 @@ public class Perk : MonoBehaviour
             {
                 UpdatePerkText();
                 _perkText.enabled = true;
+                perkAudio.PlayPerkSongSometimes();
             }else if (CheckIfPerkAdquired(scriptablePerk.perkType))
             {
+                perkAudio.PlayPerkSongSometimes();
                 _perkText.enabled = false;
             }
             else
@@ -82,6 +85,7 @@ public class Perk : MonoBehaviour
         PlayerScore playerScore = other.GetComponent<PlayerScore>();
         if (playerScore.score >= scriptablePerk.cost)
         {
+            perkAudio.PlayPerkSongSecure();
             _perkText.enabled = false;
             _canBuy = false;
             playerScore.QuitScore(scriptablePerk.cost);

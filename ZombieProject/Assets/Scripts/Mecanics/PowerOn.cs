@@ -7,6 +7,7 @@ public class PowerOn : MonoBehaviour
 {
     [SerializeField] private Text powerText;
     [SerializeField] private Animation _animation;
+    [SerializeField] private AudioSource audioSource;
     public delegate void Power();
     public event Power PowerOnReleased;
 
@@ -61,9 +62,15 @@ public class PowerOn : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             PowerOnReleased?.Invoke();
-            _animation.Play();
-            _playerAudio.PlayPowerOnAudio();
+            ReproduceThings();
         }
+    }
+
+    private void ReproduceThings()
+    {
+        _animation.Play();
+        audioSource.Play();
+        _playerAudio.PlayPowerOnAudio();
     }
 
     private void SetPowerText(string text)
