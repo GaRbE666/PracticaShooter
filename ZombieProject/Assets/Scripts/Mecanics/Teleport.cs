@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class Teleport : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Text teleportText;
     [SerializeField] private Transform teleportDestino;
     [SerializeField] private Transform spawnMainRoom;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSourcePAP;
+    [SerializeField] private AudioClip linkActived;
+    [SerializeField] private AudioClip teleportSend1;
+    [SerializeField] private AudioClip teleportSend2;
+    [SerializeField] private VideoPlayer teleportVideo;
+    [Header("Parameters")]
     [SerializeField] private float timeToReactiveTeleport;
     [SerializeField] private float timeToExitPAPRoom;
     private GameManager _gameManager;
@@ -140,6 +149,7 @@ public class Teleport : MonoBehaviour
 
     private void LinkUp()
     {
+        audioSource.PlayOneShot(linkActived);
         link1 = true;
     }
 
@@ -150,7 +160,7 @@ public class Teleport : MonoBehaviour
 
     private void TeleportToPAP()
     {
-        TeleportPlayerToPAP();
+        StartCoroutine(TeleportPlayerToPAP());
         StartCoroutine(CoolDownExitPAPRoom());
     }
 
@@ -158,7 +168,7 @@ public class Teleport : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToExitPAPRoom);
         ResetTwoTeleportStations();
-        TeleportPlayerToMainRoom();
+        StartCoroutine(TeleportPlayerToMainRoom());
     }
 
 
@@ -172,22 +182,60 @@ public class Teleport : MonoBehaviour
         StartCoroutine(TimeToReActiveTeleport());
     }
 
-    private void TeleportPlayerToMainRoom()
+    private IEnumerator TeleportPlayerToMainRoom()
     {
         _gameManager.playerTeleported = false;
+        StartCoroutine(ActivateSoundsPAPTeleport());
+        yield return new WaitForSeconds(6f);
+        ChangePlayerPositionToMainRoom();
+        _playerMovement.UnlockPlayer();
+        teleportVideo.Stop();
+    }
+
+    private IEnumerator TeleportPlayerToPAP()
+    {
+        teleportText.gameObject.SetActive(false);
+        StartCoroutine(ActiveSoundsTeleport());
+        _playerMovement.LockPlayer();
+        yield return new WaitForSeconds(6f);
+        _gameManager.playerTeleported = true;
+        ChangePlayerPositionToPAP();
+        _playerMovement.UnlockPlayer();
+        teleportVideo.Stop();
+        teleportText.gameObject.SetActive(true);
+
+    }
+
+    private void ChangePlayerPositionToMainRoom()
+    {
         _playerMovement.GetComponent<CharacterController>().enabled = false;
         _playerMovement.transform.position = spawnMainRoom.position;
         _playerMovement.transform.rotation = spawnMainRoom.rotation;
         _playerMovement.GetComponent<CharacterController>().enabled = true;
     }
 
-    private void TeleportPlayerToPAP()
+    private void ChangePlayerPositionToPAP()
     {
-        DesactiveText();
-        _gameManager.playerTeleported = true;
         _playerMovement.GetComponent<CharacterController>().enabled = false;
         _playerMovement.transform.position = teleportDestino.position;
         _playerMovement.transform.rotation = teleportDestino.rotation;
         _playerMovement.GetComponent<CharacterController>().enabled = true;
+    }
+
+    private IEnumerator ActivateSoundsPAPTeleport()
+    {
+        audioSourcePAP.PlayOneShot(teleportSend1);
+        yield return new WaitForSeconds(3f);
+        _playerMovement.LockPlayer();
+        teleportVideo.Play();
+        audioSourcePAP.PlayOneShot(teleportSend2);
+    }
+
+    private IEnumerator ActiveSoundsTeleport()
+    {
+        audioSource.PlayOneShot(teleportSend1);
+        yield return new WaitForSeconds(3f);
+        teleportVideo.Play();
+        audioSource.PlayOneShot(teleportSend2);
     }
 }

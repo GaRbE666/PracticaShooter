@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class TeleportSpawn : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Text teleportSpawnText;
     [SerializeField] private GameObject cableLink;
     [SerializeField] private Material cableLinkMaterialOn;
     [SerializeField] private Material cableLinkMaterialOff;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip linkActived;
     public bool link2;
     private Teleport _teleport;
     private GameManager _gameManager;
@@ -106,6 +109,7 @@ public class TeleportSpawn : MonoBehaviour
 
     private void LinkUp()
     {
+        audioSource.PlayOneShot(linkActived);
         _teleport.teleportActived = true;
         link2 = true;
         PutCableMaterialOn();

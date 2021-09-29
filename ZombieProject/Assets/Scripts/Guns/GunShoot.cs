@@ -77,12 +77,16 @@ public class GunShoot : MonoBehaviour
 
     void Update()
     {
-        if (isRealoading)
+        if (!_playerMovement.playerLock)
         {
-            return;
+            if (isRealoading)
+            {
+                return;
+            }
+            ReloadChecker();
+            ShootGun();
         }
-        ReloadChecker();
-        ShootGun();
+
     }
 
     private void ReloadChecker()

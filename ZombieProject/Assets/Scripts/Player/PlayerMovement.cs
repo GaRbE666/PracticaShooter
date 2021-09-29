@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _velocity;
     private bool _isGrounded;
     public bool isRunning;
-
+    public bool playerLock;
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +37,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckIsGround();
-        MouseLook();
-        PlayerMove();
-        JumpGravity();
+        if (!playerLock)
+        {
+            CheckIsGround();
+            MouseLook();
+            PlayerMove();
+            JumpGravity();
+        }
     }
 
     private void MouseLook()
@@ -105,6 +108,15 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        
+    }
+
+    public void LockPlayer()
+    {
+        playerLock = true;
+    }
+
+    public void UnlockPlayer()
+    {
+        playerLock = false;
     }
 }
