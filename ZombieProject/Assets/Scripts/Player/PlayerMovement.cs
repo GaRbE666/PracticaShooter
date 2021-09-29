@@ -25,13 +25,21 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _velocity;
     private bool _isGrounded;
+    private bool nextStep;
     public bool isRunning;
     public bool playerLock;
+    private PlayerAudio _playerAudio;
+
+    private void Awake()
+    {
+        _playerAudio = GetComponentInChildren<PlayerAudio>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        nextStep = true;
     }
 
     // Update is called once per frame
@@ -76,6 +84,28 @@ public class PlayerMovement : MonoBehaviour
             isRunning = false;
             controller.Move(move * playerSpeed * Time.deltaTime);
         }
+
+        PlayerStepsLogic(move);
+    }
+
+    private void PlayerStepsLogic(Vector3 move)
+    {
+        if (move.x != 0 && !isRunning && nextStep)
+        {
+            StartCoroutine(PlayStepsAudio(.5f));
+        }
+        else if (move.x != 0 && isRunning && nextStep)
+        {
+            StartCoroutine(PlayStepsAudio(.25f));
+        }
+    }
+
+    private IEnumerator PlayStepsAudio(float pitch)
+    {
+        nextStep = false;
+        _playerAudio.PlayStepsAudios();
+        yield return new WaitForSeconds(pitch);
+        nextStep = true;
     }
 
     private void JumpGravity()

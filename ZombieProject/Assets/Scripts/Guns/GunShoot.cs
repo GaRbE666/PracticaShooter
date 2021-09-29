@@ -22,6 +22,10 @@ public class GunShoot : MonoBehaviour
     public Material papMaterial;
     [SerializeField] private GameObject papMuzzleParticles;
 
+    [Header("Audio References")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip reload;
+
     private Text _chargeAmmoText;
     private Text _bedroomAmmoText;
 
@@ -146,6 +150,8 @@ public class GunShoot : MonoBehaviour
     private void Reload()
     {
         isShooting = false;
+        audioSource.pitch = .65f;
+        audioSource.PlayOneShot(reload);
         StartCoroutine(ReloadingCoroutine());
         return;
     }

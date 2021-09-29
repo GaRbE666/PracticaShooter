@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponSwitching : MonoBehaviour
 {
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip weaponSwitch;
 
     [HideInInspector] public int selectedWeapon;
 
@@ -21,6 +23,7 @@ public class WeaponSwitching : MonoBehaviour
 
     private void ChangeWeapon()
     {
+
         int previousSelectedWeapon = selectedWeapon;
 
         SelectWeaponWithMouse();
@@ -80,6 +83,8 @@ public class WeaponSwitching : MonoBehaviour
 
     public void SelectedWeapon()
     {
+        audioSource.PlayOneShot(weaponSwitch);
+
         int i = 0;
 
         foreach (Transform weapon in transform)

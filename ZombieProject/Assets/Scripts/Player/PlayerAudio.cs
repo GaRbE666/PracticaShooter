@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAudio : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSourceSteps;
     [Header("KillZombie Audios")]
     [SerializeField] private AudioClip[] killZombie;
     [Header("HeadShoot Audios")]
@@ -26,6 +27,8 @@ public class PlayerAudio : MonoBehaviour
     [SerializeField] private AudioClip doublePoints;
     [SerializeField] private AudioClip kaboom;
     [SerializeField] private AudioClip maxAmmo;
+    [Header("Steps Audios")]
+    [SerializeField] private AudioClip[] steps;
 
     public bool _noAmmoPlaying;
     public bool _lowAmmoPlaying;
@@ -47,6 +50,11 @@ public class PlayerAudio : MonoBehaviour
     private int SelectOneAudioRandom(AudioClip[] audioList) //Método que devuelve un audio aleatorio dentro de una lista de audios
     {
         return Random.Range(0, audioList.Length);
+    }
+
+    public void PlayStepsAudios()
+    {
+        audioSourceSteps.PlayOneShot(steps[SelectOneAudioRandom(steps)]);
     }
 
     public void PlayMaxAmmoAudio()
