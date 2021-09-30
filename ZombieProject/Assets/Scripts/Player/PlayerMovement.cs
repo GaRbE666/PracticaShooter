@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float xRotation;
 
     private Vector3 _velocity;
-    private bool _isGrounded;
+    public bool _isGrounded;
     private bool nextStep;
     public bool isRunning;
     public bool playerLock;
@@ -90,11 +90,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerStepsLogic(Vector3 move)
     {
-        if (move.x != 0 && !isRunning && nextStep)
+        if (move.x != 0 && !isRunning && nextStep && _isGrounded)
         {
             StartCoroutine(PlayStepsAudio(.5f));
         }
-        else if (move.x != 0 && isRunning && nextStep)
+        else if (move.x != 0 && isRunning && nextStep && _isGrounded)
         {
             StartCoroutine(PlayStepsAudio(.25f));
         }

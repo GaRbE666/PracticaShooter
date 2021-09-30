@@ -51,7 +51,7 @@ public class GunAnimations : MonoBehaviour
 
     private void GunRunningAnim()
     {
-        if (playerMovement.isRunning)
+        if (playerMovement.isRunning && playerMovement._isGrounded)
         {
             animator.SetBool(running, true);
         }

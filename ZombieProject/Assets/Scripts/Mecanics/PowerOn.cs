@@ -8,6 +8,7 @@ public class PowerOn : MonoBehaviour
     [SerializeField] private Text powerText;
     [SerializeField] private Animation _animation;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private GameObject lights;
     public delegate void Power();
     public event Power PowerOnReleased;
 
@@ -23,15 +24,16 @@ public class PowerOn : MonoBehaviour
     {
         powerText.gameObject.SetActive(false);
         SetPowerText("Mantén F para encender");
+        DisableAllLights();
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Player"))
-    //    {
-    //        ActiveText();
-    //    }
-    //}
+    private void DisableAllLights()
+    {
+        for (int i = 0; i < lights.transform.childCount; i++)
+        {
+            lights.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -62,7 +64,16 @@ public class PowerOn : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             PowerOnReleased?.Invoke();
+            TurnOnLights();
             ReproduceThings();
+        }
+    }
+
+    private void TurnOnLights()
+    {
+        for (int i = 0; i < lights.transform.childCount; i++)
+        {
+            lights.transform.GetChild(i).gameObject.SetActive(true);
         }
     }
 
