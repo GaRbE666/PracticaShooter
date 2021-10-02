@@ -45,6 +45,7 @@ public class GunAnimations : MonoBehaviour
     {
         if (gunShoot.isShooting)
         {
+            Debug.Log("Disparo");
             animator.SetTrigger(shooting);
         }
     }

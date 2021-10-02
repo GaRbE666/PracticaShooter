@@ -9,6 +9,7 @@ public class PowerOn : MonoBehaviour
     [SerializeField] private Animation _animation;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject lights;
+    [SerializeField] private GameObject[] electricitySparks;
     public delegate void Power();
     public event Power PowerOnReleased;
 
@@ -66,6 +67,15 @@ public class PowerOn : MonoBehaviour
             PowerOnReleased?.Invoke();
             TurnOnLights();
             ReproduceThings();
+            PlaySparks();
+        }
+    }
+
+    private void PlaySparks()
+    {
+        for (int i = 0; i < electricitySparks.Length; i++)
+        {
+            electricitySparks[i].GetComponent<ParticleSystem>().Play();
         }
     }
 

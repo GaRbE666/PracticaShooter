@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyScriptable : ScriptableObject
 {
     public string zombieName;
+    public int startedHealth;
     public int maxHealth;
     public float walkSpeed;
     public float runSpeed;

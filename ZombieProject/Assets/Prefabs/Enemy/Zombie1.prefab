@@ -2841,7 +2841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSpawn: {fileID: 6596100843464778442}
   enemyAnimation: {fileID: 7338502672333530463}
-  alwaysDroopItem: 1
+  alwaysDroopItem: 0
   enemyHeadReference: {fileID: 7515831042999125281}
   currentHealth: 0
   zScriptable: {fileID: 11400000, guid: 5df7924b9f6c09741a08e2d880424543, type: 2}

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     {
         currentRound = 1;
         _roundTransition = true;
+        enemyScriptable.maxHealth = enemyScriptable.startedHealth;
         _powerOnMethod.PowerOnReleased += TurnOnThePower;
         UpdateRoundText();
         UpdateMaxZombiesPerRound();
@@ -83,6 +84,8 @@ public class GameManager : MonoBehaviour
         _audioManager.PlayEndRoundSound();
         yield return new WaitForSeconds(9f);
         _audioManager.PlayStartRound();
+        currentRound++;
+        UpdateRoundText();
         yield return new WaitForSeconds(12f);
         RoundUp();
         _spawnManager.ResetAllCurrentZombies();
@@ -92,13 +95,11 @@ public class GameManager : MonoBehaviour
 
     private void RoundUp()
     {
-        currentRound++;
         if (currentRound <= 50)
         {
             enemyScriptable.maxHealth += 25;
         }
         UpdateMaxZombiesPerRound();
-        UpdateRoundText();
     }
 
     public void PlayerDeath()
