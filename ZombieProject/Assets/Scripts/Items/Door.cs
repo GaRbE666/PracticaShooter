@@ -7,8 +7,10 @@ public class Door : MonoBehaviour
 {
     public int pointsRequired;
     [SerializeField] private Text doorText;
-    [SerializeField] private GameObject[] doors;
     [SerializeField] private bool electricityRequired;
+    [SerializeField] private Animation[] doorAnimations;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip doorOpening;
 
     private PowerOn _powerOn;
     private PlayerAudio _playerAudio;
@@ -70,14 +72,36 @@ public class Door : MonoBehaviour
         PlayerScore playerScore = other.GetComponent<PlayerScore>();
         if (playerScore.score >= pointsRequired)
         {
-            doorText.enabled = false;
+            OpenDoor();
             playerScore.QuitScore(pointsRequired);
-            DisableAllDoors();
+            //DisableAllDoors();
         }
         else
         {
             _playerAudio.PlayNoMoneyAudio();
         }
+    }
+
+    private void OpenDoor()
+    {
+        doorText.enabled = false;
+        PlayDoorOpeningAudio();
+        PlayDoorOpeningAnimation();
+    }
+
+    private void PlayDoorOpeningAnimation()
+    {
+        foreach (Animation doorAnimation in doorAnimations)
+        {
+            doorAnimation.Play();
+            doorAnimation.GetComponentInChildren<BoxCollider>().enabled = false;
+        }
+
+    }
+
+    private void PlayDoorOpeningAudio()
+    {
+        audioSource.PlayOneShot(doorOpening);
     }
 
     private void ChangeTextValue()
@@ -93,21 +117,22 @@ public class Door : MonoBehaviour
         
     }
 
-    private void DisableAllDoors()
-    {
-        foreach (GameObject door in doors)
-        {
-            door.SetActive(false);
-        }
-    }
+    //private void DisableAllDoors()
+    //{
+    //    foreach (GameObject door in doors)
+    //    {
+    //        door.SetActive(false);
+    //    }
+    //}
 
     private void DisablePowerDoor()
     {
         if (electricityRequired)
         {
-            foreach (GameObject door in doors)
+            foreach (Animation doorAnim in doorAnimations)
             {
-                door.SetActive(false);
+                doorAnim.Play();
+                PlayDoorOpeningAudio();
             }
         }
     }

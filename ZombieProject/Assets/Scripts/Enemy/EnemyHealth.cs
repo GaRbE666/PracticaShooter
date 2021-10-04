@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     private SpawnManager _spawnManager;
     private EnemyAudio _enemyAudio;
     private PlayerAudio _playerAudio;
+    private GameManager _gameManager;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class EnemyHealth : MonoBehaviour
         _spawnManager = FindObjectOfType<SpawnManager>();
         _enemyAudio = GetComponentInChildren<EnemyAudio>();
         _playerAudio = FindObjectOfType<PlayerAudio>();
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Start is called before the first frame update
@@ -56,6 +58,7 @@ public class EnemyHealth : MonoBehaviour
         _playerAudio.PlayKillZombieAudio();
         die = true;
         _spawnManager.currentZombiesInScene--;
+        _gameManager.totalZombiesKilled++;
         DropRandomItem();
         AddScoreToPlayer();
         Destroy(gameObject, 30f);
@@ -94,5 +97,6 @@ public class EnemyHealth : MonoBehaviour
     {
         enemyHeadReference.SetActive(false);
         _enemyAudio.PlayHeadShoot();
+        _gameManager.headShootCount++;
     }
 }

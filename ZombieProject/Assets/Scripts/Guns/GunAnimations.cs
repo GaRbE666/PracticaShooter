@@ -14,6 +14,7 @@ public class GunAnimations : MonoBehaviour
     private int reloading = Animator.StringToHash("reload");
     private int reloadingMulti = Animator.StringToHash("reloadMultiplier");
     private int drawGun = Animator.StringToHash("draw");
+    private int hideGun = Animator.StringToHash("hide");
 
     private void Awake()
     {
@@ -27,6 +28,15 @@ public class GunAnimations : MonoBehaviour
         ShootAnim();
         ReloadAnim();
         AddMultiplierSpeed();
+        HideWeapon();
+    }
+
+    private void HideWeapon()
+    {
+        if (gunShoot.hideGun)
+        {
+            animator.SetTrigger(hideGun);
+        }
     }
 
     private void ReloadAnim()
@@ -45,7 +55,6 @@ public class GunAnimations : MonoBehaviour
     {
         if (gunShoot.isShooting)
         {
-            Debug.Log("Disparo");
             animator.SetTrigger(shooting);
         }
     }

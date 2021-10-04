@@ -8,9 +8,17 @@ public class PlayerScore : MonoBehaviour
     public int score;
     [SerializeField] private Text scoreText;
 
+    private GameManager _gameManager;
+
+    private void Awake()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+    }
+
     private void Start()
     {
         UpdateScoreText();
+        _gameManager.maxScore = score;
     }
 
     private void UpdateScoreText()
@@ -21,6 +29,7 @@ public class PlayerScore : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        _gameManager.maxScore += amount;
         UpdateScoreText();
     }
 

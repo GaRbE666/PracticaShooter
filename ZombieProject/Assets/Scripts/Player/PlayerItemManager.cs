@@ -27,15 +27,15 @@ public class PlayerItemManager : MonoBehaviour
             
         }
 
-        foreach (GrenadeThrower grenade in playerGuns.grenades)
-        {
-            grenade._currentChargerAmmo = grenade.grenadeScriptable.maxBulletPerCharger;
-            grenade._currentBedroomAmmo = grenade.grenadeScriptable.maxBulletsInBedroom;
-            if (grenade.gameObject.activeSelf)
-            {
-                grenade.UpdateAmmoText();
-            }
-        }
+        //foreach (GrenadeThrower grenade in playerGuns.grenades)
+        //{
+        //    grenade._currentChargerAmmo = grenade.grenadeScriptable.maxBulletPerCharger;
+        //    grenade._currentBedroomAmmo = grenade.grenadeScriptable.maxBulletsInBedroom;
+        //    if (grenade.gameObject.activeSelf)
+        //    {
+        //        grenade.UpdateAmmoText();
+        //    }
+        //}
     }
 
     //public void ShowText(string powerUpName)

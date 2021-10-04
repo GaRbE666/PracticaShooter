@@ -10,6 +10,9 @@ public class PlayerHealth : MonoBehaviour
     public float timeToRecoverHP;
     [SerializeField] private Image damageImage;
     [SerializeField] private Sprite[] damageSprite;
+    [SerializeField] private Animation deathAnimation;
+    public delegate void PlayerDie();
+    public event PlayerDie PlayerDieRelease;
 
     private PlayerMovement _playerMovement;
     private PlayerAudio _playerAudio;
@@ -39,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
         _playerAudio.PlayPlayerDamageAudio();
         if (currentHealth <= 0)
         {
+            PlayerDieRelease?.Invoke();
             Die();
         }
         StartCoroutine(RecoverHP());
@@ -79,11 +83,32 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void DisableAllComponents()
+    {
+        _playerMovement.enabled = false;
+        GetComponent<CharacterController>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponentInChildren<WeaponSwitching>().enabled = false;
+        DisableGuns();
+        enabled = false;
+    }
+
+    private void DisableGuns()
+    {
+        GunShoot[] guns = GetComponentsInChildren<GunShoot>();
+        foreach (GunShoot gun in guns)
+        {
+            gun.gameObject.SetActive(false);
+        }
+    }
+
     private void Die()
     {
         _isDie = true;
         damageImage.sprite = damageSprite[1];
-        _playerMovement.enabled = false;
         currentHealth = 0;
+        deathAnimation.Play();
+        _playerAudio.PlayDeathSound();
+        DisableAllComponents();
     }
 }

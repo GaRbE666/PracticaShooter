@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 312e191ac9ad04149bbd516a046edb8d, type: 3}
   m_Name: Pistola
   m_EditorClassIdentifier: 
-  gunName: Phyton
+  gunName: M119
   price: 500
   maxBulletsInBedroom: 24
   maxBulletPerCharger: 6
-  reloadingtime: 4
+  reloadingtime: 1.5
   fireRate: 0
-  damage: 50
+  damage: 30
   range: 100
   singleShoot: 1
   ammoType: 0

@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool spawnInStart;
     [SerializeField] private EnemyScriptable enemyScriptable;
     public ZombieSpawnTable[] zombieSpawnTable;
-    //public delegate void RoundChange();
-    //public event RoundChange RoundChangeReleased;
+    public int totalZombiesKilled;
+    public int maxScore;
+    public int headShootCount;
 
     public int currentRound;
     public bool powerOn;
@@ -100,11 +101,6 @@ public class GameManager : MonoBehaviour
             enemyScriptable.maxHealth += 25;
         }
         UpdateMaxZombiesPerRound();
-    }
-
-    public void PlayerDeath()
-    {
-
     }
 
     private void UpdateRoundText()

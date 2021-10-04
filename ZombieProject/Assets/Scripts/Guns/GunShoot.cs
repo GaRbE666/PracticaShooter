@@ -38,6 +38,8 @@ public class GunShoot : MonoBehaviour
     [HideInInspector] public float reloadTime;
     [HideInInspector] public float fireRate;
 
+    public bool hideGun;
+
     private float _nextTimeToFire;
     private PlayerMovement _playerMovement;
     private PlayerAudio _playerAudio;
@@ -76,7 +78,13 @@ public class GunShoot : MonoBehaviour
     {
         UpdateAmmoTexts();
         isRealoading = false;
-        gunNameText.text = gunScriptable.name;
+        gunNameText.text = gunScriptable.gunName;
+        hideGun = false;
+    }
+
+    private void OnDisable()
+    {
+        hideGun = true;
     }
 
     void Update()
@@ -205,9 +213,8 @@ public class GunShoot : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(gunDamage);
+            SelectWhatParticleShow(hit, enemy);
         }
-        SelectWhatParticleShow(hit, enemy);
-
     }
 
     private void SelectWhatParticleShow(RaycastHit hit, EnemyHealth enemy)
@@ -219,6 +226,7 @@ public class GunShoot : MonoBehaviour
             impactHeadClone.transform.SetParent(hit.transform);
             enemy.DisableHead();
             hit.collider.enabled = false;
+            
         }
         else
         {

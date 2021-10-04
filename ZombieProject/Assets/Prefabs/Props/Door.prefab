@@ -61,6 +61,9 @@ MonoBehaviour:
   doorText: {fileID: 0}
   doors:
   - {fileID: 5943698433139447236}
+  electricityRequired: 0
+  audioSource: {fileID: 0}
+  doorOpening: {fileID: 0}
 --- !u!1 &5943698433139447236
 GameObject:
   m_ObjectHideFlags: 0
