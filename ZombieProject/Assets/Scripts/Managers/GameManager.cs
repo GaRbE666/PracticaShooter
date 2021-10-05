@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -10,27 +11,35 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform startSpawn;
     [SerializeField] private bool spawnInStart;
     [SerializeField] private EnemyScriptable enemyScriptable;
+    [SerializeField] private float travellingTime;
+    [SerializeField] private float timeToResetGame;
+    [SerializeField] private float timePlayerDeathAnim;
     public ZombieSpawnTable[] zombieSpawnTable;
     public int totalZombiesKilled;
     public int maxScore;
     public int headShootCount;
-
     public int currentRound;
     public bool powerOn;
     public bool playerTeleported;
+
+    private CameraTravelling _cameraTravelling;
     private PowerOn _powerOnMethod;
     private SpawnManager _spawnManager;
     private bool _roundTransition;
     private PlayerMovement _playerMovement;
+    private PlayerHealth _playerHealth;
     private AudioManager _audioManager;
+    private UIManagers _uiManager;
 
     private void Awake()
     {
         _spawnManager = FindObjectOfType<SpawnManager>();
         _powerOnMethod = FindObjectOfType<PowerOn>();
         _playerMovement = FindObjectOfType<PlayerMovement>();
+        _playerHealth = FindObjectOfType<PlayerHealth>();
         _audioManager = FindObjectOfType<AudioManager>();
-
+        _cameraTravelling = FindObjectOfType<CameraTravelling>();
+        _uiManager = FindObjectOfType<UIManagers>();
     }
 
     private void Start()
@@ -50,6 +59,7 @@ public class GameManager : MonoBehaviour
         _roundTransition = true;
         enemyScriptable.maxHealth = enemyScriptable.startedHealth;
         _powerOnMethod.PowerOnReleased += TurnOnThePower;
+        _playerHealth.PlayerDieRelease += ResetGame;
         UpdateRoundText();
         UpdateMaxZombiesPerRound();
     }
@@ -59,7 +69,6 @@ public class GameManager : MonoBehaviour
         {
             if (_spawnManager._endRound && _roundTransition)
             {
-                //RoundChangeReleased?.Invoke();
                 StartCoroutine(RoundCompleted());
             }
         }
@@ -77,7 +86,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void ResetGame()
+    {
+        StartCoroutine(ResetGameCoroutine());
+    }
 
+    private IEnumerator ResetGameCoroutine()
+    {
+        yield return new WaitForSeconds(timePlayerDeathAnim);
+        SelectRandomTravelling();
+        yield return new WaitForSeconds(travellingTime);
+        _uiManager.FadeInAnim();
+        yield return new WaitForSeconds(timeToResetGame);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void SelectRandomTravelling()
+    {
+        int numRand = Random.Range(0, 2);
+        if (numRand == 0)
+        {
+            _cameraTravelling.PlayTravEsce();
+        }
+        else
+        {
+            _cameraTravelling.PlayTravBar();
+        }
+    }
 
     public IEnumerator RoundCompleted()
     {

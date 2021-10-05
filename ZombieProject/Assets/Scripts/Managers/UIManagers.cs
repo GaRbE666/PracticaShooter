@@ -10,6 +10,10 @@ public class UIManagers : MonoBehaviour
     [SerializeField] private Text playerScoreText;
     [SerializeField] private Text playerKillsText;
     [SerializeField] private Text playerHeadShootText;
+    [SerializeField] private float timeToShowPlayerStats;
+    [SerializeField] private AnimationClip fadeIn;
+    [SerializeField] private AnimationClip fadeOut;
+    [SerializeField] private Animation fadeAnimation;
 
     private GameManager _gameManager;
     private PlayerHealth _playerhealth;
@@ -24,6 +28,7 @@ public class UIManagers : MonoBehaviour
     {
         scoreCanvas.gameObject.SetActive(false);
         _playerhealth.PlayerDieRelease += ShowPlayersStats;
+        FadeOutAnim();
     }
 
     private void Update()
@@ -42,6 +47,18 @@ public class UIManagers : MonoBehaviour
         }
     }
 
+    public void FadeInAnim()
+    {
+        fadeAnimation.clip = fadeIn;
+        fadeAnimation.Play();
+    }
+
+    public void FadeOutAnim()
+    {
+        fadeAnimation.clip = fadeOut;
+        fadeAnimation.Play();
+    }
+
     public void DisableInGameCanvas()
     {
         inGameCanvas.gameObject.SetActive(false);
@@ -49,6 +66,12 @@ public class UIManagers : MonoBehaviour
 
     public void ShowPlayersStats()
     {
+        StartCoroutine(ShowPlayerStatsCoroutine());
+    }
+
+    private IEnumerator ShowPlayerStatsCoroutine()
+    {
+        yield return new WaitForSeconds(timeToShowPlayerStats);
         scoreCanvas.gameObject.SetActive(true);
     }
 

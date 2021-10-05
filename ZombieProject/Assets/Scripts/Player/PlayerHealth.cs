@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
     public float timeToRecoverHP;
+    [SerializeField] private Image crossHire;
     [SerializeField] private Image damageImage;
     [SerializeField] private Sprite[] damageSprite;
     [SerializeField] private Animation deathAnimation;
@@ -106,6 +107,8 @@ public class PlayerHealth : MonoBehaviour
     {
         _isDie = true;
         damageImage.sprite = damageSprite[1];
+        damageImage.enabled = false;
+        crossHire.enabled = false;
         currentHealth = 0;
         deathAnimation.Play();
         _playerAudio.PlayDeathSound();
