@@ -15,6 +15,7 @@ public class GunAnimations : MonoBehaviour
     private int reloadingMulti = Animator.StringToHash("reloadMultiplier");
     private int drawGun = Animator.StringToHash("draw");
     private int hideGun = Animator.StringToHash("hide");
+    private int walking = Animator.StringToHash("isWalking");
 
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class GunAnimations : MonoBehaviour
     private void Update()
     {
         GunRunningAnim();
+        GunWalkingAnim();
         ShootAnim();
         ReloadAnim();
         AddMultiplierSpeed();
@@ -56,6 +58,18 @@ public class GunAnimations : MonoBehaviour
         if (gunShoot.isShooting)
         {
             animator.SetTrigger(shooting);
+        }
+    }
+
+    private void GunWalkingAnim()
+    {
+        if (playerMovement.isWalking && playerMovement._isGrounded)
+        {
+            animator.SetBool(walking, true);
+        }
+        else
+        {
+            animator.SetBool(walking, false);
         }
     }
 

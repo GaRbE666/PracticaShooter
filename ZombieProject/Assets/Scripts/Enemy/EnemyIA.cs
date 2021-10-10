@@ -9,15 +9,18 @@ public class EnemyIA : MonoBehaviour
     [SerializeField] private EnemyHealth enemyHealth;
     [SerializeField] private Transform blindTarget;
     public EnemyScriptable zScriptable;
-    public int pointsReward;
-    public int pointsForHitReward;
-    public bool isAttacking;
-    public bool relaxZombies;
-    public bool angryZombies;
+    [SerializeField] private Transform spawnStartParticles;
+    [SerializeField] private GameObject particlePrefab;
+    [HideInInspector] public int pointsReward;
+    [HideInInspector] public int pointsForHitReward;
+    [HideInInspector] public bool isAttacking;
+    [HideInInspector] public bool relaxZombies;
+    [HideInInspector] public bool angryZombies;
 
     private EnemyAnimations _enemyAnimations;
     private PlayerMovement _player;
     private GameManager _gameManager;
+    private bool _canMove;
 
     private void Awake()
     {
@@ -31,6 +34,8 @@ public class EnemyIA : MonoBehaviour
         pointsReward = zScriptable.pointReward;
         pointsForHitReward = zScriptable.pointsForHit;
         ChangeSpeedEnemy();
+        PlayStartParticleSpawn();
+        StartCoroutine(EnemyCanMoveCoroutine());
     }
 
     private void Update()
@@ -45,7 +50,10 @@ public class EnemyIA : MonoBehaviour
             {
                 if (!isAttacking)
                 {
-                    agent.SetDestination(_player.transform.position);
+                    if (_canMove)
+                    {
+                        MoveZombie();
+                    }
                 }
                 CheckDistanceToPlayer();
             }
@@ -54,6 +62,23 @@ public class EnemyIA : MonoBehaviour
         {
             agent.speed = 0;
         } 
+    }
+
+    private void MoveZombie()
+    {
+        agent.SetDestination(_player.transform.position);
+    }
+
+    private IEnumerator EnemyCanMoveCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        _canMove = true;
+    }
+
+    private void PlayStartParticleSpawn()
+    {
+        GameObject particleClone = Instantiate(particlePrefab, spawnStartParticles.position, spawnStartParticles.rotation);
+        particleClone.transform.SetParent(spawnStartParticles);
     }
 
     private void PlayerIsInPAPRoom()

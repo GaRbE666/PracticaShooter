@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Text roundText;
-    [SerializeField] private bool noZombies;
     [SerializeField] private Transform startSpawn;
-    [SerializeField] private bool spawnInStart;
     [SerializeField] private EnemyScriptable enemyScriptable;
-    [SerializeField] private float travellingTime;
+    //[SerializeField] private AudioMixer audioMixer;
+    [Header("Parameters")]
+    [SerializeField] private bool spawnInStart;
+    [SerializeField] private bool noZombies;
+    [SerializeField] private float cameraTravellingTime;
     [SerializeField] private float timeToResetGame;
     [SerializeField] private float timePlayerDeathAnim;
     public ZombieSpawnTable[] zombieSpawnTable;
-    public int totalZombiesKilled;
-    public int maxScore;
-    public int headShootCount;
-    public int currentRound;
-    public bool powerOn;
-    public bool playerTeleported;
+    [SerializeField] private float lightWithNoPower;
+    [SerializeField] private float lightWithPower;
+
+    [HideInInspector] public int totalZombiesKilled;
+    [HideInInspector] public int maxScore;
+    [HideInInspector] public int headShootCount;
+    [HideInInspector] public int currentRound;
+    [HideInInspector] public bool powerOn;
+    [HideInInspector] public bool playerTeleported;
 
     private CameraTravelling _cameraTravelling;
     private PowerOn _powerOnMethod;
@@ -74,6 +81,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     private void UpdateMaxZombiesPerRound()
     {
         for (int i = 0; i < zombieSpawnTable.Length; i++)
@@ -95,7 +104,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(timePlayerDeathAnim);
         SelectRandomTravelling();
-        yield return new WaitForSeconds(travellingTime);
+        yield return new WaitForSeconds(cameraTravellingTime);
         _uiManager.FadeInAnim();
         yield return new WaitForSeconds(timeToResetGame);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

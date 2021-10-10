@@ -15,18 +15,18 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float maxTimeToSpawn;
     [SerializeField] private float minTimeToSpawn;
     [SerializeField] private float maxDistanceToPlayerToCanSpawn;
+    [SerializeField] private float timeBeforeStartSpawn;
 
-    //Añadir en todos los public [HideInInspector]
-    public int visitedRooms;
-    public int currentZombiesInScene;
-    public int currentZombiesPerRound;
+    [HideInInspector] public int visitedRooms;
+    [HideInInspector] public int currentZombiesInScene;
+    [HideInInspector] public int currentZombiesPerRound;
     private bool _canSpawn;
     private bool _canSpawnMore;
     private float _timeRandomToSpawn;
     private GameManager _gameManager;
     [HideInInspector] public bool _endRound;
     private PlayerMovement _playerMovement;
-    public List<GameObject> spawnsActived;
+    [HideInInspector] public List<GameObject> spawnsActived;
 
     private void Awake()
     {
@@ -34,8 +34,9 @@ public class SpawnManager : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForSeconds(timeBeforeStartSpawn);
         _canSpawnMore = true;
         _canSpawn = true;
     }

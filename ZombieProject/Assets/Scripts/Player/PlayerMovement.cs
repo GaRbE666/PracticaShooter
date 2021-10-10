@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool _isGrounded;
     private bool nextStep;
     public bool isRunning;
+    public bool isWalking;
     public bool playerLock;
     private PlayerAudio _playerAudio;
 
@@ -72,15 +73,25 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        Debug.Log(z);
+
         Vector3 move = (transform.right * x + transform.forward * z).normalized;
 
         if (Input.GetKey(KeyCode.LeftShift) && z > 0)
         {
             controller.Move(move * playerRunSpeed * Time.deltaTime);
             isRunning = true;
+            isWalking = false;
+        }
+        else if (z != 0)
+        {
+            isWalking = true;
+            isRunning = false;
+            controller.Move(move * playerSpeed * Time.deltaTime);
         }
         else
         {
+            isWalking = false;
             isRunning = false;
             controller.Move(move * playerSpeed * Time.deltaTime);
         }

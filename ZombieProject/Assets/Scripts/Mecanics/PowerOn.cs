@@ -9,6 +9,7 @@ public class PowerOn : MonoBehaviour
     [SerializeField] private Animation _animation;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject lights;
+    [SerializeField] private GameObject mainLights;
     [SerializeField] private GameObject[] electricitySparks;
     public delegate void Power();
     public event Power PowerOnReleased;
@@ -35,6 +36,8 @@ public class PowerOn : MonoBehaviour
             lights.transform.GetChild(i).gameObject.SetActive(false);
         }
     }
+
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -65,10 +68,16 @@ public class PowerOn : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             PowerOnReleased?.Invoke();
-            TurnOnLights();
-            ReproduceThings();
+            ModifyLights();
+            ReproduceAudios();
             PlaySparks();
         }
+    }
+
+    private void ModifyLights()
+    {
+        TurnOnLights();
+        UpgradeIntensityMainLight();
     }
 
     private void PlaySparks()
@@ -87,7 +96,15 @@ public class PowerOn : MonoBehaviour
         }
     }
 
-    private void ReproduceThings()
+    private void UpgradeIntensityMainLight()
+    {
+        for (int i = 0; i < mainLights.transform.childCount; i++)
+        {
+            mainLights.transform.GetChild(i).GetComponent<Light>().intensity = .5f;
+        }
+    }
+
+    private void ReproduceAudios()
     {
         _animation.Play();
         audioSource.Play();

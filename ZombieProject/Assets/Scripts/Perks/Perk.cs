@@ -5,28 +5,34 @@ using UnityEngine.UI;
 
 public class Perk : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private ScriptablePerk scriptablePerk;
     [SerializeField] private PerkAudio perkAudio;
-
     [SerializeField] private Text _perkText;
+    [SerializeField] private Material materialPerkOff;
+    [SerializeField] private Material materialPerkOn;
+
     private bool _canBuy;
     private PlayerPerkManager _playerPerkManager;
     private PowerOn _powerOn;
     private PlayerAudio _playerAudio;
+    private MeshRenderer _perkMeshRenderer;
     [HideInInspector] public bool perkAdquired;
 
     private void Awake()
     {
         _playerPerkManager = FindObjectOfType<PlayerPerkManager>();
-        //_perkText = GameObject.FindGameObjectWithTag("PerkText").GetComponent<Text>();
         _powerOn = FindObjectOfType<PowerOn>();
         _playerAudio = FindObjectOfType<PlayerAudio>();
+        _perkMeshRenderer = GetComponentInParent<MeshRenderer>();
+
     }
 
     private void Start()
     {
         _perkText.enabled = false;
         _powerOn.PowerOnReleased += TurnOnPerk;
+        _perkMeshRenderer.material = materialPerkOff;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -116,9 +122,15 @@ public class Perk : MonoBehaviour
         }
     }
 
+    private void ChangePerkMaterial()
+    {
+        _perkMeshRenderer.material = materialPerkOn;
+    }
+
     private void TurnOnPerk()
     {
         _canBuy = true;
+        ChangePerkMaterial();
     }
 
     private void UpdatePerkText()
