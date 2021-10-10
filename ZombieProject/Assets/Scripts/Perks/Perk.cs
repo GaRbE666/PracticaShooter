@@ -9,8 +9,13 @@ public class Perk : MonoBehaviour
     [SerializeField] private ScriptablePerk scriptablePerk;
     [SerializeField] private PerkAudio perkAudio;
     [SerializeField] private Text _perkText;
-    [SerializeField] private Material materialPerkOff;
-    [SerializeField] private Material materialPerkOn;
+    [Header("Colors/Materials References")]
+    [SerializeField] private MeshRenderer iconMeshRenderer;
+    [SerializeField] private Material iconOff;
+    [SerializeField] private Material iconOn;
+    [SerializeField] private Material[] materialPerkOff;
+    [SerializeField] private Material[] materialPerkOn;
+    [SerializeField] private SpriteRenderer[] spritesRenderers;
 
     private bool _canBuy;
     private PlayerPerkManager _playerPerkManager;
@@ -32,7 +37,8 @@ public class Perk : MonoBehaviour
     {
         _perkText.enabled = false;
         _powerOn.PowerOnReleased += TurnOnPerk;
-        _perkMeshRenderer.material = materialPerkOff;
+        PutMaterialOff();
+        PutSpritesOff();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -122,15 +128,45 @@ public class Perk : MonoBehaviour
         }
     }
 
-    private void ChangePerkMaterial()
+    private void PutSpritesOff()
     {
-        _perkMeshRenderer.material = materialPerkOn;
+        for (int i = 0; i < spritesRenderers.Length; i++)
+        {
+            spritesRenderers[i].color = new Color(50, 50, 50, 1);
+        }
+    }
+
+    private void PutMaterialOff()
+    {
+        _perkMeshRenderer.materials = materialPerkOff;
+        if (iconMeshRenderer != null)
+        {
+            iconMeshRenderer.material = iconOff;
+        }
+    }
+
+    private void PutMaterialOn()
+    {
+        _perkMeshRenderer.materials = materialPerkOn;
+        if (iconMeshRenderer != null)
+        {
+            iconMeshRenderer.material = iconOn;
+        }
+    }
+
+    private void PutSpritesOn()
+    {
+        for (int i = 0; i < spritesRenderers.Length; i++)
+        {
+            spritesRenderers[i].color = new Color(255, 255, 255, 1);
+        }
     }
 
     private void TurnOnPerk()
     {
         _canBuy = true;
-        ChangePerkMaterial();
+        PutMaterialOn();
+        PutSpritesOn();
     }
 
     private void UpdatePerkText()

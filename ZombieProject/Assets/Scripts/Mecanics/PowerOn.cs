@@ -100,7 +100,7 @@ public class PowerOn : MonoBehaviour
     {
         for (int i = 0; i < mainLights.transform.childCount; i++)
         {
-            mainLights.transform.GetChild(i).GetComponent<Light>().intensity = .5f;
+            mainLights.transform.GetChild(i).GetComponent<Light>().intensity = .3f;
         }
     }
 
