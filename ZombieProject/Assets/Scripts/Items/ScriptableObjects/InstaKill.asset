@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: "Muerte Instant\xE1nea"
   timeToDestroy: 20
+  itemIcon: {fileID: 21300000, guid: 222b9f08b553a5c409e39059518b57d9, type: 3}
+  useTimerText: 1
+  timerText: {fileID: 2912571407231360550, guid: 22c475aa3ad363e44ba16803d0a9f5e2,
+    type: 3}
   itemType: 1

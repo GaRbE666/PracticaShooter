@@ -6,13 +6,29 @@ using UnityEngine.UI;
 public class PlayerItemManager : MonoBehaviour
 {
     private PlayerGuns playerGuns;
+    //public Image[] itemImages;
+    //public int powerUpAdquired;
     //private Text itemNameText;
 
     private void Awake()
     {
         //itemNameText = FindObjectOfType<PowerUpName>().GetComponent<Text>();
         playerGuns = GetComponent<PlayerGuns>();
+        //itemImages = FindObjectOfType<PowerUpsImagesParent>().GetComponentsInChildren<Image>();
     }
+
+    //private void Start()
+    //{
+    //    HideAllItemImages();
+    //}
+
+    //public void HideAllItemImages()
+    //{
+    //    foreach (Image image in itemImages)
+    //    {
+    //        image.enabled = false;
+    //    }
+    //}
 
     public void MaxAmmo()
     {

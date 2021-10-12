@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Puntos Dobles
   timeToDestroy: 20
+  itemIcon: {fileID: 21300000, guid: 5835b5922a7bde04d8b777bd3906510c, type: 3}
+  useTimerText: 1
+  timerText: {fileID: 375330441949031076, guid: 5a5e195932ae93d43ace193e8c358cbb,
+    type: 3}
   itemType: 2

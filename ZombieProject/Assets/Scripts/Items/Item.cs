@@ -13,46 +13,43 @@ public class Item : MonoBehaviour
     [SerializeField] private AudioClip effectEnds;
     [SerializeField] private AudioClip pickPowerUp;
     [SerializeField] private GameObject nukeExplosion;
-
     public ItemScriptable itemScriptable;
 
     private bool itemCatched;
-
-    //private MeshRenderer[] meshRenderer;
     private BoxCollider _boxCollider;
-    private Text _powerUpTimerEffect;
     private float _timeToDestroy;
     private PlayerAudio _playerAudio;
-    //private PlayerItemManager playerItemManager;
     private EnemyPowerUpManager[] _enemyPowerUpManager;
+    private Text itemTimerText;
+    private Image _itemIcon;
     [HideInInspector] public bool instakillActived;
     [HideInInspector] public bool doublePointsActived;
 
     private void Awake()
     {
-        //playerItemManager = FindObjectOfType<PlayerItemManager>();
-        //meshRenderer = GetComponentsInChildren<MeshRenderer>();
         _boxCollider = GetComponent<BoxCollider>();
-        _powerUpTimerEffect = FindObjectOfType<PowerUpTimer>().GetComponent<Text>();
         _playerAudio = FindObjectOfType<PlayerAudio>();
+        
     }
 
     private void Start()
     {
         _timeToDestroy = itemScriptable.timeToDestroy;
         powerUpAudioSource.PlayOneShot(spawnPowerUp);
+
     }
 
     private void Update()
     {
         if (itemCatched)
         {
-            
             _timeToDestroy -= Time.deltaTime;
             UpdatePowerUpText();
+
             if (_timeToDestroy <= 0)
             {
                 Destroy(gameObject, 1f);
+                DisableItemIcon();
             }
 
         }
@@ -69,12 +66,31 @@ public class Item : MonoBehaviour
 
     private void UpdatePowerUpText()
     {
-        _powerUpTimerEffect.enabled = true;
-        _powerUpTimerEffect.text = _timeToDestroy.ToString("00");
-        if (_timeToDestroy <= 0)
+        if (itemScriptable.useTimerText)
         {
-            _powerUpTimerEffect.enabled = false;
+            _itemIcon.enabled = true;
+            itemTimerText.enabled = true;
+            itemTimerText.text = _timeToDestroy.ToString("00");
+            if (_timeToDestroy <= 0)
+            {
+                itemTimerText.enabled = false;
+            }
         }
+    }
+
+    private void EnableItemIcon()
+    {
+        _itemIcon.sprite = itemScriptable.itemIcon;
+        _itemIcon.enabled = true;
+        if (itemScriptable.useTimerText)
+        {
+            itemTimerText = _itemIcon.transform.GetChild(0).GetComponent<Text>();
+        }
+    }
+
+    private void DisableItemIcon()
+    {
+        _itemIcon.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -85,7 +101,6 @@ public class Item : MonoBehaviour
             _boxCollider.enabled = false;
             DisableVisualPowerUp();
             powerUpAudioSource.PlayOneShot(pickPowerUp);
-            //Debug.Log(powerUpAudioSource.clip.name);
             PlayItemVoice();
             SelectItem(other);
             FindAllZombiePowerUpManagerReferences();
@@ -120,13 +135,16 @@ public class Item : MonoBehaviour
         {
             case ItemScriptable.itemEnumType.MaxAmmo:
                 MaxAmmo(other);
+                _itemIcon = GameObject.FindGameObjectWithTag("MaxAmmoIcon").GetComponent<Image>();
                 break;
             case ItemScriptable.itemEnumType.InstaKill:
+                _itemIcon = GameObject.FindGameObjectWithTag("InstaKillIcon").GetComponent<Image>();
                 instakillActived = true;
                 transform.name = "InstakillActived";
                 StartCoroutine(InstaKill());
                 break;
             case ItemScriptable.itemEnumType.DoublePoints:
+                _itemIcon = GameObject.FindGameObjectWithTag("DoublePointsIcon").GetComponent<Image>();
                 doublePointsActived = true;
                 transform.name = "DoublePointsActived";
                 StartCoroutine(DoublePoints());
@@ -135,10 +153,11 @@ public class Item : MonoBehaviour
                 Cash(other);
                 break;
             case ItemScriptable.itemEnumType.Kaboom:
+                _itemIcon = GameObject.FindGameObjectWithTag("KaboomIcon").GetComponent<Image>();
                 Kaboom();
                 break;
-
         }
+        EnableItemIcon();
     }
 
     private void Kaboom()

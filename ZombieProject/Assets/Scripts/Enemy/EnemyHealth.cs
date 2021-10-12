@@ -85,13 +85,22 @@ public class EnemyHealth : MonoBehaviour
 
     private void DropRandomItem()
     {
-        int numRand = Random.Range(0, 100);
-
-        if (numRand <= zScriptable.dropPercent)
+        if (alwaysDroopItem)
         {
             int indexRand = Random.Range(0, zScriptable.items.Count);
             Instantiate(zScriptable.items[indexRand], itemSpawn.position, itemSpawn.rotation);
         }
+        else
+        {
+            int numRand = Random.Range(0, 100);
+
+            if (numRand <= zScriptable.dropPercent)
+            {
+                int indexRand = Random.Range(0, zScriptable.items.Count);
+                Instantiate(zScriptable.items[indexRand], itemSpawn.position, itemSpawn.rotation);
+            }
+        }
+
     }
 
     public void DisableHead()
