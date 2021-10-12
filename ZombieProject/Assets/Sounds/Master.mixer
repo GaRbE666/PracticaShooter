@@ -66,6 +66,20 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!244 &-4217462847837898639
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 547d670371c829b4e817df4fa54756fa
+  m_EffectName: Attenuation
+  m_MixLevel: 1a514df786f34be469de004036caa126
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-3288736532319731912
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -113,6 +127,25 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &-294992266022182830
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Menu
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 558a4735a307d8246992ca64e4fccecc
+  m_Children: []
+  m_Volume: be0b376641f5c634786b195a3f6ebdf8
+  m_Pitch: a1447b93b05663a409c5bae79e446871
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -4217462847837898639}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -140,6 +173,7 @@ AudioMixerController:
     - 9098620ff9b77bb4896010f884267c37
     - 9dbb32b147a6e4e428d5f0d6a06b2ee0
     - 6feb0cc0439d4474ba438fc92c209c0d
+    - 558a4735a307d8246992ca64e4fccecc
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -161,6 +195,7 @@ AudioMixerGroupController:
   - {fileID: 5262133592109075007}
   - {fileID: 236345275517821626}
   - {fileID: -8286202565747275560}
+  - {fileID: -294992266022182830}
   m_Volume: 53703d52532933a44bafd7038562cab3
   m_Pitch: 4d37aa8efb9483e409c8f67d2a0787e9
   m_Send: 00000000000000000000000000000000
@@ -196,6 +231,7 @@ AudioMixerSnapshotController:
   m_FloatValues:
     28c69d821777d3341bec27f83ca49536: -4.560346
     9e552a33f38f34947b0e409df466ed32: -9.833286
+    be0b376641f5c634786b195a3f6ebdf8: -9.833286
     740faf49c3a778343ba294702d138ffa: 0
     bd0061dbdfc901746a3116447a25b61b: -19.928473
     9ae7cc1d3b77bc14e8a79b39b0642ee3: -10.345207

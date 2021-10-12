@@ -9,11 +9,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Image loadingScreen;
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private Text porcentajeText;
+    [SerializeField] private AudioSource menuAudio;
 
     private void Start()
     {
         loadingScreen.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
+        menuAudio.Play();
     }
 
     public void LoadScene(string sceneName)
@@ -30,7 +32,6 @@ public class MenuManager : MonoBehaviour
             float progress = Mathf.Clamp01(operation.progress / .9f);
             loadingSlider.value = progress;
             porcentajeText.text = (progress * 100f).ToString("00") + "%";
-            Debug.Log("Cargando nivel: " + progress);
             yield return null;
         }
     }
