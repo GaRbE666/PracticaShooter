@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text roundText;
     [SerializeField] private Transform startSpawn;
     [SerializeField] private EnemyScriptable enemyScriptable;
-    //[SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private string menuSceneName;
     [Header("Parameters")]
     [SerializeField] private bool spawnInStart;
     [SerializeField] private bool noZombies;
@@ -22,13 +22,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float lightWithNoPower;
     [SerializeField] private float lightWithPower;
 
+
     [HideInInspector] public int totalZombiesKilled;
     [HideInInspector] public int maxScore;
     [HideInInspector] public int headShootCount;
     [HideInInspector] public int currentRound;
     [HideInInspector] public bool powerOn;
     [HideInInspector] public bool playerTeleported;
-
     private CameraTravelling _cameraTravelling;
     private PowerOn _powerOnMethod;
     private SpawnManager _spawnManager;
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(cameraTravellingTime);
         _uiManager.FadeInAnim();
         yield return new WaitForSeconds(timeToResetGame);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(menuSceneName);
     }
 
     private void SelectRandomTravelling()
